@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tablero digital Altos del Raco</title>
   <style>
-    /* Reset y base */
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom, #f7f9fc, #e3f2fd);
@@ -18,7 +17,6 @@
       margin: auto;
     }
 
-    /* Header */
     .header {
       background: #fff;
       border-radius: 15px;
@@ -51,7 +49,6 @@
       color: #555;
     }
 
-    /* Tags */
     .tags {
       display: flex;
       gap: 10px;
@@ -64,18 +61,13 @@
       padding: 5px 12px;
       border-radius: 20px;
       font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
 
-    /* Secciones */
     h2 {
       color: #0d47a1;
       margin-bottom: 15px;
     }
 
-    /* Grid de tarjetas */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -83,7 +75,6 @@
       margin-bottom: 30px;
     }
 
-    /* Tarjetas */
     .card {
       background: #fff;
       padding: 15px;
@@ -94,7 +85,6 @@
       text-decoration: none;
       color: inherit;
       display: block;
-      text-align: left;
     }
 
     .card:hover {
@@ -117,7 +107,6 @@
       color: #0277bd;
     }
 
-    /* Footer */
     footer {
       text-align: center;
       margin-top: 30px;
@@ -125,7 +114,6 @@
       color: #777;
     }
 
-    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -174,18 +162,20 @@
       font-size: 0.9rem;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
+    }
+
+    .copy-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
     }
 
     .copy-btn:hover {
       background: #1565c0;
     }
 
-    .copy-icon {
-      font-size: 1.1rem;
-    }
-
-    /* Responsive */
     @media (max-width: 500px) {
       .grid {
         grid-template-columns: 1fr;
@@ -195,7 +185,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
       <img src="general/logo.jpeg" alt="Logo del Tablero Digital Altos del Raco">
       <div class="header-text">
@@ -207,26 +196,24 @@
       </div>
     </div>
 
-    <!-- Archivos Octubre -->
     <h2>Archivos de Octubre</h2>
     <div class="grid">
-      <a href="oct/OCTUBRE-VMC.pdf" target="_blank" class="card" title="Abrir Programa reunión VMC">
+      <a href="oct/OCTUBRE-VMC.pdf" target="_blank" class="card">
         <h3>📄 Programa reunión (VMC)</h3>
         <p>Calendario · PDF</p>
       </a>
 
-      <a href="oct/Programa_predicacion_Oct25.pdf" target="_blank" class="card" title="Abrir Programa de predicación">
+      <a href="oct/Programa_predicacion_Oct25.pdf" target="_blank" class="card">
         <h3>📄 Programa de predicación</h3>
         <p>Fechas y territorios · PDF</p>
       </a>
 
-      <a href="oct/Privilegios_2025-10_2.pdf" target="_blank" class="card" title="Abrir Privilegios">
+      <a href="oct/Privilegios_2025-10_2.pdf" target="_blank" class="card">
         <h3>📄 Privilegios</h3>
         <p>Audio · Video · Micrófonos · PDF</p>
       </a>
     </div>
 
-    <!-- Archivos Generales -->
     <h2>Archivos Generales</h2>
     <div class="grid">
       <a href="general/Puntos_predicacion_publica.pdf" target="_blank" class="card">
@@ -244,20 +231,17 @@
         <p>Documento · PDF</p>
       </a>
 
-      <!-- Nueva opción: Datos de transferencia (al final de Archivos Generales) -->
-      <div class="card" id="transferenciaCard" title="Ver datos de transferencia">
-        <h3>💳 Datos de transferencia congregaci&oacute;n</h3>
+      <div class="card" id="transferenciaCard">
+        <h3>💳 Datos de transferencia</h3>
         <p>Cuenta bancaria · Copiar fácilmente</p>
       </div>
     </div>
 
-    <!-- Footer -->
     <footer>
-      © Altos del Raco - HTML de una sola pieza (incluye PDFs).
+      © Altos del Raco - HTML de una sola pieza.
     </footer>
   </div>
 
-  <!-- Modal de Transferencia -->
   <div id="transferModal" class="modal">
     <div class="modal-content">
       <button class="close-btn" id="closeModal">&times;</button>
@@ -269,7 +253,8 @@
       <p><strong>Nombre:</strong> Altos del Raco</p>
       <p><strong>Correo:</strong> cuentas.altosdelraco@gmail.com</p>
       <button class="copy-btn" id="copyData">
-        <span class="copy-icon">🗐</span> Copiar datos
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v16h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 18H8V7h11v16z"/></svg>
+        Copiar datos
       </button>
     </div>
   </div>
@@ -280,17 +265,9 @@
     const closeModal = document.getElementById('closeModal');
     const copyBtn = document.getElementById('copyData');
 
-    openCard.addEventListener('click', () => {
-      modal.style.display = 'flex';
-    });
-
-    closeModal.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
-    });
+    openCard.addEventListener('click', () => modal.style.display = 'flex');
+    closeModal.addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
 
     copyBtn.addEventListener('click', () => {
       const text = `
@@ -305,7 +282,9 @@ Correo: cuentas.altosdelraco@gmail.com
       navigator.clipboard.writeText(text).then(() => {
         copyBtn.innerHTML = '✅ Datos copiados';
         setTimeout(() => {
-          copyBtn.innerHTML = '<span class="copy-icon">🗐</span> Copiar datos';
+          copyBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v16h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 18H8V7h11v16z"/></svg>
+          Copiar datos`;
         }, 2000);
       });
     });
