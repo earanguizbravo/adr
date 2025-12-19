@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tablero digital Altos del Raco</title>
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d47a1">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <style>
     :root {
-      /* Modo claro (por defecto) */
       --bg-primary: linear-gradient(to bottom, #f7f9fc, #e3f2fd);
       --card-bg: #fff;
       --text-primary: #2c3e50;
@@ -28,7 +31,6 @@
 
     @media (prefers-color-scheme: dark) {
       :root.dark-auto {
-        /* Modo oscuro automático */
         --bg-primary: linear-gradient(to bottom, #121212, #1e1e1e);
         --card-bg: #2d2d2d;
         --text-primary: #e0e0e0;
@@ -140,6 +142,13 @@
       margin: 5px 0 15px;
       color: var(--text-secondary);
       transition: color var(--transition);
+    }
+
+    .next-meeting {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: var(--text-link);
+      font-weight: 600;
     }
 
     .tags {
@@ -305,6 +314,40 @@
       outline: 2px solid var(--accent);
     }
 
+    /* Botón Volver Arriba */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 9;
+    }
+
+    #backToTop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (min-width: 768px) {
+      #backToTop {
+        display: none !important;
+      }
+    }
+
     @media (max-width: 500px) {
       .grid {
         grid-template-columns: 1fr;
@@ -323,30 +366,29 @@
         <h1>Tablero digital Altos del Raco</h1>
         <p>Bienvenidos al tablero digital de Altos del Raco</p>
         <div class="tags">
-          <span class="tag">📅 Actualizado 18-12-2025</span>
+          <span class="tag">📅 Actualizado 19-12-2025</span>
         </div>
       </div>
       <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro">
-        <!-- Ícono se inyecta con JavaScript -->
       </button>
     </div>
 
     <h2>Archivos de Diciembre</h2>
     <div class="grid">
       <a href="dic/VMC_DIC25_2.pdf" target="_blank" class="card">
-        <h3>📄 Programa reunión (VMC)</h3>
+        <h3 title="Programa de la reunión de Vida y Ministerio Cristián">📄 Programa reunión (VMC)</h3>
         <p>Calendario · PDF</p>
       </a>
       <a href="dic/Programa_predicacion_dic25.pdf" target="_blank" class="card">
-        <h3>📄 Programa de predicación</h3>
+        <h3 title="Programa de predicación del mes">📄 Programa de predicación</h3>
         <p>Fechas y territorios · PDF</p>
       </a>
       <a href="dic/Privilegios-2025-12.pdf" target="_blank" class="card">
-        <h3>📄 Privilegios</h3>
+        <h3 title="Privilegios de habla y participación">📄 Privilegios</h3>
         <p>Audio · Video · Micrófonos · PDF</p>
       </a>
       <a href="dic/Programa_discursos_ADR_1225.pdf" target="_blank" class="card">
-        <h3>📄 Programa discursos</h3>
+        <h3 title="Programa de discursos públicos">📄 Programa discursos</h3>
         <p>Calendario de discursos · PDF</p>
       </a>
     </div>
@@ -354,8 +396,9 @@
     <h2>Reuniones Regulares</h2>
     <div class="grid">
       <a href="https://jworg.zoom.us/j/83830674412" target="_blank" class="card recurrent" tabindex="0">
-        <h3>📹 Únete a las reuniones</h3>
+        <h3 title="Únete a las reuniones semanales por Zoom">📹 Únete a las reuniones</h3>
         <p>Martes 20:00 · Domingo 18:00</p>
+        <div class="next-meeting" id="nextMeeting">Cargando...</div>
         <span class="zoom-details-trigger" id="openZoomDetails">Ver ID y código de acceso</span>
       </a>
     </div>
@@ -363,19 +406,19 @@
     <h2>Archivos Generales</h2>
     <div class="grid">
       <a href="general/Puntos_predicacion_publica.pdf" target="_blank" class="card">
-        <h3>📄 Puntos para la Predicación Pública</h3>
+        <h3 title="Puntos bíblicos para la predicación pública">📄 Puntos para la Predicación Pública</h3>
         <p>Documento · PDF</p>
       </a>
       <a href="general/MAPA_ADR_2025.pdf" target="_blank" class="card">
-        <h3>📄 Mapa ADR 2025</h3>
+        <h3 title="Mapa con zonas de predicación 2025">📄 Mapa ADR 2025</h3>
         <p>Documento · PDF</p>
       </a>
       <a href="general/Grupos_Predicacion_nov25.pdf" target="_blank" class="card">
-        <h3>📄 Grupos de Predicación 25</h3>
+        <h3 title="Grupos asignados para la predicación">📄 Grupos de Predicación 25</h3>
         <p>Documento · PDF</p>
       </a>
       <div class="card" id="transferenciaCard" tabindex="0">
-        <h3>💳 Datos de transferencia congregación</h3>
+        <h3 title="Datos bancarios para donaciones o ofrendas">💳 Datos de transferencia congregación</h3>
         <p>Cuenta bancaria · Copiar fácilmente</p>
       </div>
     </div>
@@ -384,6 +427,9 @@
       © Altos del Raco – Tablero digital actualizado.
     </footer>
   </div>
+
+  <!-- Botón Volver Arriba -->
+  <button id="backToTop" aria-label="Volver al inicio">↑</button>
 
   <!-- Modales -->
   <div id="transferModal" class="modal" role="dialog" aria-labelledby="transferModalTitle">
@@ -418,7 +464,55 @@
   </div>
 
   <script>
-    // --- Íconos corregidos: equilibrados y claros ---
+    // --- PRÓXIMA REUNIÓN ---
+    function getNextMeetingText() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth(); // 0 = enero
+      const date = now.getDate();
+      const day = now.getDay(); // 0 = dom, 1 = lun, 2 = mar, ..., 6 = sáb
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const currentMinutes = hours * 60 + minutes;
+
+      const sundayTime = 18 * 60; // 18:00
+      const tuesdayTime = 20 * 60; // 20:00
+
+      // Hoy es domingo y aún no son las 18:00
+      if (day === 0 && currentMinutes < sundayTime) {
+        return "Hoy a las 18:00";
+      }
+      // Hoy es martes y aún no son las 20:00
+      if (day === 2 && currentMinutes < tuesdayTime) {
+        return "Hoy a las 20:00";
+      }
+
+      // Calcular próximo día
+      let nextDate = new Date(year, month, date);
+      let daysToAdd = 0;
+
+      if (day === 0) {
+        // Después del domingo → próximo martes (+2 días)
+        daysToAdd = 2;
+      } else if (day < 2) {
+        // Lunes → martes (+1)
+        daysToAdd = 2 - day;
+      } else if (day <= 6) {
+        // Miércoles a sábado → próximo domingo
+        daysToAdd = 7 - day;
+      }
+
+      nextDate.setDate(date + daysToAdd);
+      const nextDay = nextDate.getDay();
+      const options = { weekday: 'long', day: 'numeric', month: 'short' };
+      const formattedDate = nextDate.toLocaleDateString('es-ES', options);
+      const time = nextDay === 0 ? '18:00' : '20:00';
+      return `${formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)} a las ${time}`;
+    }
+
+    document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
+
+    // --- ÍCONOS MODO OSCURO ---
     const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -435,7 +529,6 @@
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
     </svg>`;
 
-    // --- Modo Oscuro ---
     const body = document.getElementById('body');
     const themeToggle = document.getElementById('themeToggle');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -445,16 +538,15 @@
       if (theme === 'dark') {
         body.classList.remove('dark-auto');
         body.classList.add('dark-mode');
-        themeToggle.innerHTML = sunIcon; // Mostrar sol: clic vuelve a claro
+        themeToggle.innerHTML = sunIcon;
         localStorage.setItem('theme', 'dark');
       } else {
         body.classList.remove('dark-mode', 'dark-auto');
-        themeToggle.innerHTML = moonIcon; // Mostrar luna: clic va a oscuro
+        themeToggle.innerHTML = moonIcon;
         localStorage.setItem('theme', 'light');
       }
     }
 
-    // Inicializar tema
     if (savedTheme === 'dark') {
       setTheme('dark');
     } else if (savedTheme === 'light') {
@@ -462,9 +554,9 @@
     } else {
       if (prefersDark) {
         body.classList.add('dark-auto');
-        themeToggle.innerHTML = sunIcon; // Sistema en oscuro → mostrar sol
+        themeToggle.innerHTML = sunIcon;
       } else {
-        themeToggle.innerHTML = moonIcon; // Sistema en claro → mostrar luna
+        themeToggle.innerHTML = moonIcon;
       }
     }
 
@@ -476,7 +568,20 @@
       }
     });
 
-    // --- Funcionalidad de copiado y modales (sin cambios) ---
+    // --- BOTÓN VOLVER ARRIBA ---
+    const backToTopButton = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    });
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // --- FUNCIONALIDAD MODALES ---
     const modal = document.getElementById('transferModal');
     const openCard = document.getElementById('transferenciaCard');
     const closeModal = document.getElementById('closeModal');
@@ -534,6 +639,13 @@ Código de acceso: 306868`.trim();
         setTimeout(() => resetCopyButton(copyZoomBtn, originalZoomHTML), 2500);
       });
     });
+
+    // --- Registrar Service Worker para PWA ---
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(console.warn);
+      });
+    }
   </script>
 </body>
 </html>
