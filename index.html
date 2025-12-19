@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tablero digital Altos del Raco</title>
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0d47a1">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -90,17 +89,44 @@
       box-shadow: var(--shadow);
       margin-bottom: 30px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
       gap: 15px;
       position: relative;
       transition: background var(--transition), box-shadow var(--transition);
     }
 
+    .header-top {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-content {
+      flex: 1;
+    }
+
+    .search-box {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-secondary);
+    }
+
     .theme-toggle {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
       background: none;
       border: 1px solid var(--border-color);
       width: 36px;
@@ -155,6 +181,7 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      margin-top: 8px;
     }
 
     .tag {
@@ -291,7 +318,8 @@
       outline: 2px solid var(--accent);
     }
 
-    .copy-btn {
+    /* ✅ Corrección clave: botón de copiar solo dentro del modal */
+    .modal-content .copy-btn {
       margin-top: 15px;
       background: var(--accent);
       color: #fff;
@@ -308,13 +336,12 @@
       transition: background-color var(--transition), outline-color var(--transition);
     }
 
-    .copy-btn:hover,
-    .copy-btn:focus {
+    .modal-content .copy-btn:hover,
+    .modal-content .copy-btn:focus {
       background: var(--accent-hover);
       outline: 2px solid var(--accent);
     }
 
-    /* Botón Volver Arriba */
     #backToTop {
       position: fixed;
       bottom: 20px;
@@ -352,43 +379,49 @@
       .grid {
         grid-template-columns: 1fr;
       }
-      .theme-toggle {
-        right: 10px;
-      }
     }
   </style>
 </head>
 <body id="body">
   <div class="container">
     <div class="header">
-      <img src="general/logo.jpeg" alt="Logo del Tablero Digital Altos del Raco">
-      <div class="header-text">
-        <h1>Tablero digital Altos del Raco</h1>
-        <p>Bienvenidos al tablero digital de Altos del Raco</p>
-        <div class="tags">
-          <span class="tag">📅 Actualizado 19-12-2025</span>
+      <div class="header-top">
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <img src="general/logo.jpeg" alt="Logo del Tablero Digital Altos del Raco">
+          <div class="header-content">
+            <h1>Tablero digital Altos del Raco</h1>
+            <p>Bienvenidos al tablero digital de Altos del Raco</p>
+          </div>
         </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro">
+        </button>
       </div>
-      <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro">
-      </button>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar archivos (ej: mapa, discursos, grupo...)">
+      </div>
+
+      <div class="tags">
+        <span class="tag">📅 Actualizado 19-12-2025</span>
+      </div>
     </div>
 
     <h2>Archivos de Diciembre</h2>
-    <div class="grid">
-      <a href="dic/VMC_DIC25_2.pdf" target="_blank" class="card">
-        <h3 title="Programa de la reunión de Vida y Ministerio Cristián">📄 Programa reunión (VMC)</h3>
+    <div class="grid" id="decemberGrid">
+      <a href="dic/VMC_DIC25_2".pdf" target="_blank" class="card" data-keywords="programa reunión vmc calendario">
+        <h3 title="Programa de la reunión de Vida y Ministerio Cristián">🗓️ Programa reunión (VMC)</h3>
         <p>Calendario · PDF</p>
       </a>
-      <a href="dic/Programa_predicacion_dic25.pdf" target="_blank" class="card">
-        <h3 title="Programa de predicación del mes">📄 Programa de predicación</h3>
+      <a href="dic/Programa_predicacion_dic25.pdf" target="_blank" class="card" data-keywords="programa predicación fechas territorios">
+        <h3 title="Programa de predicación del mes">🗓️ Programa de predicación</h3>
         <p>Fechas y territorios · PDF</p>
       </a>
-      <a href="dic/Privilegios-2025-12.pdf" target="_blank" class="card">
-        <h3 title="Privilegios de habla y participación">📄 Privilegios</h3>
+      <a href="dic/Privilegios-2025-12.pdf" target="_blank" class="card" data-keywords="privilegios habla micrófono audio video">
+        <h3 title="Privilegios de habla y participación">🎤 Privilegios</h3>
         <p>Audio · Video · Micrófonos · PDF</p>
       </a>
-      <a href="dic/Programa_discursos_ADR_1225.pdf" target="_blank" class="card">
-        <h3 title="Programa de discursos públicos">📄 Programa discursos</h3>
+      <a href="dic/Programa_discursos_ADR_1225.pdf" target="_blank" class="card" data-keywords="discursos programa público">
+        <h3 title="Programa de discursos públicos">📢 Programa discursos</h3>
         <p>Calendario de discursos · PDF</p>
       </a>
     </div>
@@ -404,20 +437,20 @@
     </div>
 
     <h2>Archivos Generales</h2>
-    <div class="grid">
-      <a href="general/Puntos_predicacion_publica.pdf" target="_blank" class="card">
-        <h3 title="Puntos bíblicos para la predicación pública">📄 Puntos para la Predicación Pública</h3>
+    <div class="grid" id="generalGrid">
+      <a href="general/Puntos_predicacion_publica.pdf" target="_blank" class="card" data-keywords="puntos predicación pública bíblicos">
+        <h3 title="Puntos bíblicos para la predicación pública">💬 Puntos para la Predicación Pública</h3>
         <p>Documento · PDF</p>
       </a>
-      <a href="general/MAPA_ADR_2025.pdf" target="_blank" class="card">
-        <h3 title="Mapa con zonas de predicación 2025">📄 Mapa ADR 2025</h3>
+      <a href="general/MAPA_ADR_2025.pdf" target="_blank" class="card" data-keywords="mapa zonas predicación 2025">
+        <h3 title="Mapa con zonas de predicación 2025">🗺️ Mapa ADR 2025</h3>
         <p>Documento · PDF</p>
       </a>
-      <a href="general/Grupos_Predicacion_nov25.pdf" target="_blank" class="card">
-        <h3 title="Grupos asignados para la predicación">📄 Grupos de Predicación 25</h3>
+      <a href="general/Grupos_Predicacion_nov25.pdf" target="_blank" class="card" data-keywords="grupos predicación asignación noviembre">
+        <h3 title="Grupos asignados para la predicación">👥 Grupos de Predicación 25</h3>
         <p>Documento · PDF</p>
       </a>
-      <div class="card" id="transferenciaCard" tabindex="0">
+      <div class="card" id="transferenciaCard" tabindex="0" data-keywords="transferencia banco donación ofrenda">
         <h3 title="Datos bancarios para donaciones o ofrendas">💳 Datos de transferencia congregación</h3>
         <p>Cuenta bancaria · Copiar fácilmente</p>
       </div>
@@ -428,7 +461,6 @@
     </footer>
   </div>
 
-  <!-- Botón Volver Arriba -->
   <button id="backToTop" aria-label="Volver al inicio">↑</button>
 
   <!-- Modales -->
@@ -464,41 +496,59 @@
   </div>
 
   <script>
+    // --- BÚSQUEDA ---
+    const searchInput = document.getElementById('searchInput');
+    const decemberGrid = document.getElementById('decemberGrid');
+    const generalGrid = document.getElementById('generalGrid');
+
+    function filterCards() {
+      const term = searchInput.value.trim().toLowerCase();
+      const allCards = [
+        ...decemberGrid.querySelectorAll('.card'),
+        ...generalGrid.querySelectorAll('.card')
+      ];
+
+      allCards.forEach(card => {
+        const text = (card.textContent + ' ' + card.dataset.keywords).toLowerCase();
+        if (term === '' || text.includes(term)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    searchInput.addEventListener('input', filterCards);
+
     // --- PRÓXIMA REUNIÓN ---
     function getNextMeetingText() {
       const now = new Date();
       const year = now.getFullYear();
-      const month = now.getMonth(); // 0 = enero
+      const month = now.getMonth();
       const date = now.getDate();
-      const day = now.getDay(); // 0 = dom, 1 = lun, 2 = mar, ..., 6 = sáb
+      const day = now.getDay();
       const hours = now.getHours();
       const minutes = now.getMinutes();
       const currentMinutes = hours * 60 + minutes;
 
-      const sundayTime = 18 * 60; // 18:00
-      const tuesdayTime = 20 * 60; // 20:00
+      const sundayTime = 18 * 60;
+      const tuesdayTime = 20 * 60;
 
-      // Hoy es domingo y aún no son las 18:00
       if (day === 0 && currentMinutes < sundayTime) {
         return "Hoy a las 18:00";
       }
-      // Hoy es martes y aún no son las 20:00
       if (day === 2 && currentMinutes < tuesdayTime) {
         return "Hoy a las 20:00";
       }
 
-      // Calcular próximo día
       let nextDate = new Date(year, month, date);
       let daysToAdd = 0;
 
       if (day === 0) {
-        // Después del domingo → próximo martes (+2 días)
         daysToAdd = 2;
       } else if (day < 2) {
-        // Lunes → martes (+1)
         daysToAdd = 2 - day;
-      } else if (day <= 6) {
-        // Miércoles a sábado → próximo domingo
+      } else {
         daysToAdd = 7 - day;
       }
 
@@ -512,7 +562,7 @@
 
     document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
 
-    // --- ÍCONOS MODO OSCURO ---
+    // --- MODO OSCURO ---
     const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -581,7 +631,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // --- FUNCIONALIDAD MODALES ---
+    // --- MODALES Y COPIADO ---
     const modal = document.getElementById('transferModal');
     const openCard = document.getElementById('transferenciaCard');
     const closeModal = document.getElementById('closeModal');
@@ -640,7 +690,7 @@ Código de acceso: 306868`.trim();
       });
     });
 
-    // --- Registrar Service Worker para PWA ---
+    // --- PWA ---
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch(console.warn);
