@@ -213,7 +213,7 @@
     }
 
     .card h3 {
-      margin: 0 0 8px;
+      margin: 0 0 12px;
       font-size: 1.1rem;
       color: var(--accent);
       display: flex;
@@ -236,6 +236,45 @@
       cursor: pointer;
       margin-top: 6px;
       display: inline-block;
+    }
+
+    .event-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .event-list li {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .event-list li:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .event-list h4 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .event-list .date {
+      font-weight: bold;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .event-list .location {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
     }
 
     footer {
@@ -358,28 +397,6 @@
         grid-template-columns: 1fr;
       }
     }
-
-    /* Estilos para eventos */
-    .event-card {
-      border-left: 4px solid #ff9800;
-      background-color: var(--recurrent-bg);
-    }
-
-    .event-card h3 {
-      color: #ff9800;
-      font-weight: 600;
-    }
-
-    .event-card p {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-
-    .event-card p:first-child {
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
   </style>
 </head>
 <body id="body">
@@ -397,26 +414,26 @@
       </button>
     </div>
 
-    <!-- SECCIÓN: PRÓXIMOS EVENTOS (ordenados por fecha) -->
+    <!-- SECCIÓN: PRÓXIMOS EVENTOS (UNIFICADOS EN UNA SOLA CARD) -->
     <h2>📅 Próximos Eventos</h2>
     <div class="grid">
-      <!-- 1. Visita del superintendente (27 ene – 1 feb 2026) -->
-      <div class="card reminder event-card">
-        <h3 title="Visita a la congregación del superintendente de circuito">📆 Visita del Superintendente</h3>
-        <p><strong>mar, 27 ene – dom, 1 feb 2026</strong></p>
-      </div>
-
-      <!-- 2. Conmemoración (2 abr 2026) -->
-      <div class="card reminder event-card">
-        <h3 title="Conmemoración anual">🕯️ Conmemoración</h3>
-        <p><strong>jue, 2 abr 2026</strong></p>
-      </div>
-
-      <!-- 3. Asamblea de circuito (2 may 2026) -->
-      <div class="card reminder event-card">
-        <h3 title="Asamblea de circuito con el superintendente">📢 Asamblea de circuito</h3>
-        <p><strong>sáb, 2 may 2026</strong></p>
-        <p>Puente Alto - Puente Alto (Met. RM-CHL)</p>
+      <div class="card reminder">
+        <h3>🗓️ Eventos importantes</h3>
+        <ul class="event-list">
+          <li>
+            <h4>Visita del Superintendente</h4>
+            <div class="date">mar, 27 ene – dom, 1 feb 2026</div>
+          </li>
+          <li>
+            <h4>Conmemoración</h4>
+            <div class="date">jue, 2 abr 2026</div>
+          </li>
+          <li>
+            <h4>Asamblea de circuito</h4>
+            <div class="date">sáb, 2 may 2026</div>
+            <div class="location">Puente Alto - Puente Alto (Met. RM-CHL)</div>
+          </li>
+        </ul>
       </div>
     </div>
 
