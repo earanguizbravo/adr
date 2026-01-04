@@ -358,6 +358,39 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Estilos para eventos */
+    .event-card {
+      border-left: 4px solid #ff9800; /* Naranja vibrante para eventos importantes */
+      background-color: var(--recurrent-bg);
+    }
+
+    .event-card h3 {
+      color: #ff9800;
+      font-weight: 600;
+    }
+
+    .event-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .event-card p:first-child {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    /* Mejora visual para recordatorios cargados dinámicamente */
+    .card.reminder h3 {
+      color: #ff9800;
+      font-weight: 600;
+    }
+
+    .card.reminder p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body id="body">
@@ -379,6 +412,29 @@
     <h2 id="recordatorios-title" style="display: none;">🔔 Recordatorios</h2>
     <div class="grid" id="recordatorios-container">
       <!-- Los recordatorios se cargarán aquí -->
+    </div>
+
+    <!-- NUEVA SECCIÓN: PRÓXIMOS EVENTOS -->
+    <h2>📅 Próximos Eventos</h2>
+    <div class="grid">
+      <!-- Tarjeta: Asamblea de circuito -->
+      <div class="card reminder event-card">
+        <h3 title="Asamblea de circuito con el superintendente">📢 Asamblea de circuito</h3>
+        <p><strong>Todo el día</strong></p>
+        <p>Puente Alto - Puente Alto (Met. RM-CHL)</p>
+      </div>
+
+      <!-- Tarjeta: Visita del superintendente -->
+      <div class="card reminder event-card">
+        <h3 title="Visita a la congregación del superintendente de circuito">📆 Visita del Superintendente</h3>
+        <p><strong>mar, 27 ene – dom, 1 feb 2026</strong></p>
+      </div>
+
+      <!-- Tarjeta: Conmemoración -->
+      <div class="card reminder event-card">
+        <h3 title="Conmemoración anual">🕯️ Conmemoración</h3>
+        <p><strong>jue, 2 abr 2026</strong></p>
+      </div>
     </div>
 
     <h2>Archivos de Enero</h2>
@@ -403,7 +459,7 @@
 
     <h2>Reuniones Regulares</h2>
     <div class="grid">
-      <a href="https://jworg.zoom.us/j/83830674412" target="_blank" class="card recurrent" tabindex="0">
+      <a href="https://jworg.zoom.us/j/83830674412  " target="_blank" class="card recurrent" tabindex="0">
         <h3 title="Únete a las reuniones semanales por Zoom">📹 Únete a las reuniones</h3>
         <p>Martes 20:00 · Domingo 18:00</p>
         <div class="next-meeting" id="nextMeeting">Cargando...</div>
@@ -459,7 +515,7 @@
     <div class="modal-content">
       <button class="close-btn" id="closeZoomModal" aria-label="Cerrar ventana de Zoom">&times;</button>
       <h3 id="zoomModalTitle">Datos técnicos de Zoom</h3>
-      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412" target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
+      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412  " target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
       <p><strong>ID de reunión:</strong> 838 3067 4412</p>
       <p><strong>Código de acceso:</strong> 306868</p>
       <button class="copy-btn" id="copyZoomData">
@@ -577,7 +633,7 @@
     if (copyZoomBtn) {
       const originalHTML = copyZoomBtn.innerHTML;
       copyZoomBtn.addEventListener('click', () => {
-        const text = `Enlace: https://jworg.zoom.us/j/83830674412\nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
+        const text = `Enlace: https://jworg.zoom.us/j/83830674412  \nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text).then(() => {
             copyZoomBtn.innerHTML = '✅ ¡Copiado!';
