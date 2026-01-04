@@ -361,7 +361,7 @@
 
     /* Estilos para eventos */
     .event-card {
-      border-left: 4px solid #ff9800; /* Naranja vibrante para eventos importantes */
+      border-left: 4px solid #ff9800;
       background-color: var(--recurrent-bg);
     }
 
@@ -380,17 +380,6 @@
       font-weight: bold;
       margin-bottom: 4px;
     }
-
-    /* Mejora visual para recordatorios cargados dinámicamente */
-    .card.reminder h3 {
-      color: #ff9800;
-      font-weight: 600;
-    }
-
-    .card.reminder p {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
   </style>
 </head>
 <body id="body">
@@ -408,19 +397,13 @@
       </button>
     </div>
 
-    <!-- Recordatorios importantes (cargados desde JSON) -->
-    <h2 id="recordatorios-title" style="display: none;">🔔 Recordatorios</h2>
-    <div class="grid" id="recordatorios-container">
-      <!-- Los recordatorios se cargarán aquí -->
-    </div>
-
     <!-- NUEVA SECCIÓN: PRÓXIMOS EVENTOS -->
     <h2>📅 Próximos Eventos</h2>
     <div class="grid">
       <!-- Tarjeta: Asamblea de circuito -->
       <div class="card reminder event-card">
         <h3 title="Asamblea de circuito con el superintendente">📢 Asamblea de circuito</h3>
-        <p><strong>Todo el día</strong></p>
+        <p><strong>sáb, 2 may 2026</strong></p>
         <p>Puente Alto - Puente Alto (Met. RM-CHL)</p>
       </div>
 
@@ -645,47 +628,6 @@
         }
       });
     }
-
-    // === CARGA DINÁMICA DE RECORDATORIOS CON SOPORTE PARA ENLACES ===
-    async function cargarRecordatorios() {
-      const container = document.getElementById('recordatorios-container');
-      const title = document.getElementById('recordatorios-title');
-
-      try {
-        const response = await fetch('recordatorios.json');
-        if (!response.ok) throw new Error('No se pudo cargar el archivo de recordatorios');
-        const recordatorios = await response.json();
-
-        if (!Array.isArray(recordatorios) || recordatorios.length === 0) {
-          return;
-        }
-
-        title.style.display = 'block';
-        container.innerHTML = recordatorios.map(r => {
-          const cardContent = `
-            <h3 title="${r.titulo}">📅 ${r.titulo}</h3>
-            <p>${r.descripcion}</p>
-          `;
-          if (r.enlace && r.enlace.trim()) {
-            return `
-              <a href="${r.enlace}" target="_blank" rel="noopener" class="card reminder">
-                ${cardContent}
-              </a>
-            `;
-          } else {
-            return `
-              <div class="card reminder">
-                ${cardContent}
-              </div>
-            `;
-          }
-        }).join('');
-      } catch (error) {
-        console.warn('⚠️ No se pudieron cargar los recordatorios:', error);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', cargarRecordatorios);
   </script>
 </body>
 </html>
