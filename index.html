@@ -460,7 +460,7 @@
 
     <h2>Reuniones Regulares</h2>
     <div class="grid">
-      <a href="https://jworg.zoom.us/j/83830674412  " target="_blank" class="card recurrent" tabindex="0">
+      <a href="https://jworg.zoom.us/j/83830674412    " target="_blank" class="card recurrent" tabindex="0">
         <h3 title="Únete a las reuniones semanales por Zoom">📹 Únete a las reuniones</h3>
         <p>Martes 20:00 · Sábado 18:00</p>
         <div class="next-meeting" id="nextMeeting">Cargando...</div>
@@ -516,7 +516,7 @@
     <div class="modal-content">
       <button class="close-btn" id="closeZoomModal" aria-label="Cerrar ventana de Zoom">&times;</button>
       <h3 id="zoomModalTitle">Datos técnicos de Zoom</h3>
-      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412  " target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
+      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412    " target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
       <p><strong>ID de reunión:</strong> 838 3067 4412</p>
       <p><strong>Código de acceso:</strong> 306868</p>
       <button class="copy-btn" id="copyZoomData">
@@ -526,21 +526,37 @@
   </div>
 
   <script>
-    // Próxima reunión
+    // Próxima reunión → actualizada para sábado en lugar de domingo
     function getNextMeetingText() {
       const now = new Date();
-      const day = now.getDay();
+      const day = now.getDay(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
       const hours = now.getHours();
       const minutes = now.getMinutes();
       const currentMinutes = hours * 60 + minutes;
-      if (day === 0 && currentMinutes < 18 * 60) return "Hoy a las 18:00";
+
+      // Si es sábado y aún no pasaron las 18:00 → hoy
+      if (day === 6 && currentMinutes < 18 * 60) return "Hoy a las 18:00";
+      // Si es martes y aún no pasaron las 20:00 → hoy
       if (day === 2 && currentMinutes < 20 * 60) return "Hoy a las 20:00";
-      let nextDate = new Date();
-      let daysToAdd = day === 0 ? 2 : (day < 2 ? 2 - day : 7 - day);
+
+      // Determinar cuántos días sumar para llegar al próximo evento
+      let daysToAdd;
+      if (day < 2) {
+        // De domingo a lunes → próximo martes
+        daysToAdd = 2 - day;
+      } else if (day < 6) {
+        // De miércoles a viernes → próximo sábado
+        daysToAdd = 6 - day;
+      } else {
+        // Si hoy es sábado después de las 18:00 o domingo → próximo martes
+        daysToAdd = 2 + (7 - day);
+      }
+
+      const nextDate = new Date(now);
       nextDate.setDate(now.getDate() + daysToAdd);
       const options = { weekday: 'long', day: 'numeric', month: 'short' };
       const formattedDate = nextDate.toLocaleDateString('es-ES', options);
-      const time = nextDate.getDay() === 0 ? '18:00' : '20:00';
+      const time = (nextDate.getDay() === 6) ? '18:00' : '20:00';
       return `${formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)} a las ${time}`;
     }
     document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
@@ -634,7 +650,7 @@
     if (copyZoomBtn) {
       const originalHTML = copyZoomBtn.innerHTML;
       copyZoomBtn.addEventListener('click', () => {
-        const text = `Enlace: https://jworg.zoom.us/j/83830674412  \nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
+        const text = `Enlace: https://jworg.zoom.us/j/83830674412    \nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text).then(() => {
             copyZoomBtn.innerHTML = '✅ ¡Copiado!';
