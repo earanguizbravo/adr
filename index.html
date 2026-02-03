@@ -487,6 +487,76 @@
   border-left: 3px solid var(--accent);
   padding-left: 12px;
 }
+    /* --- NUEVO: Estilo para lista de eventos moderna --- */
+.event-list {
+  list-style: none;
+  padding: 0;
+}
+
+.event-item {
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+.event-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.event-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.event-header .event-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.event-meta {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.meta-row svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--text-link);
+}
+
+.meta-row a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+.meta-row a:hover {
+  background-color: rgba(13, 71, 161, 0.1);
+  text-decoration: underline;
+}
+
+/* Para móviles: más espacio vertical */
+@media (max-width: 600px) {
+  .meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .meta-row svg {
+    margin: 0 0 4px 0;
+  }
+}
   </style>
 </head>
 <body id="body">
@@ -508,34 +578,93 @@
     <h2>📅 Próximos Eventos</h2>
     <div class="grid">
       <div class="card reminder">
-        <h3>🗓️ Eventos importantes</h3>
-        <ul class="event-list">
-            <li>
-              <h4>📌 Visita de Pastoreo – Cuerpo Gobernante</h4>
-              <div class="date">sáb, 28 de feb de 2026 | 9:00 hrs</div>
-              <div class="location">
-                <span class="address-text">📍 Claro Arena, Cv Las Flores 13000, Las Condes, Región Metropolitana</span>
-                <a href="https://maps.app.goo.gl/cvubd8LbmFmk9Xqb9" 
-                   target="_blank" 
-                   rel="noopener"
-                   class="map-link"
-                   aria-label="Abrir ubicación en Google Maps: Claro Arena, Las Condes">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                  </svg>
-                  Ver en Google Maps
-                </a>
-              </div>
-            </li>
+      <ul class="event-list">
+        <!-- Evento 1: Visita de Pastoreo -->
+        <li class="event-item">
+          <div class="event-header">
+            <span class="event-icon">📌</span>
+            <h4>Visita de Pastoreo – Cuerpo Gobernante</h4>
+          </div>
+          <div class="event-meta">
+            <div class="meta-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span>sáb, 28 de feb de 2026 | 9:00 hrs</span>
+            </div>
+            <div class="meta-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0-7-9-3-9-3s-9-4-9 3a9 9 0 0 0 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Claro Arena, Cv Las Flores 13000, Las Condes</span>
+            </div>
+            <div class="meta-row">
+              <a href="https://maps.app.goo.gl/cvubd8LbmFmk9Xqb9" 
+                 target="_blank" 
+                 rel="noopener"
+                 class="map-link"
+                 aria-label="Abrir ubicación en Google Maps">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                Ver en Google Maps
+              </a>
+            </div>
+          </div>
+        </li>
+      
+        <!-- Evento 2: Conmemoración -->
+        <li class="event-item">
+          <div class="event-header">
+            <span class="event-icon">🕯️</span>
             <h4>Conmemoración</h4>
-            <div class="date">jue, 2 de abr de 2026</div>
-          </li>
-          <li>
+          </div>
+          <div class="event-meta">
+            <div class="meta-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span>jue, 2 de abr de 2026</span>
+            </div>
+            <!-- Sin ubicación → no mostramos fila de mapa -->
+          </div>
+        </li>
+      
+        <!-- Evento 3: Asamblea de circuito -->
+        <li class="event-item">
+          <div class="event-header">
+            <span class="event-icon">👥</span>
             <h4>Asamblea de circuito</h4>
-            <div class="date">sáb, 2 de may de 2026</div>
-            <div class="location">Puente Alto - Puente Alto (Met. RM-CHL)</div>
-          </li>
-        </ul>
+          </div>
+          <div class="event-meta">
+            <div class="meta-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span>sáb, 2 de may de 2026</span>
+            </div>
+            <div class="meta-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0-7-9-3-9-3s-9-4-9 3a9 9 0 0 0 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Puente Alto - Puente Alto (Met. RM-CHL)</span>
+            </div>
+            <!-- Si NO tienes enlace de mapa, omite esta fila -->
+          </div>
+        </li>
+      </ul>
+     
       </div>
     </div>
 
