@@ -238,96 +238,6 @@
       display: inline-block;
     }
 
-    .event-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .event-list li {
-      margin-bottom: 15px;
-      padding-bottom: 15px;
-      border-bottom: 1px dashed var(--border-color);
-    }
-
-    .event-list li:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .event-list h4 {
-      margin: 0 0 4px;
-      font-size: 1rem;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .event-list .date {
-      font-weight: bold;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-
-    .event-list .location {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
-    
-   .event-list .location a {
-  color: inherit;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.05); /* ← fondo suave para indicar interactividad */
-  transition: all 0.2s ease;
-}
-
-.event-list .location a:hover {
-  background-color: rgba(0, 0, 0, 0.1); /* ← fondo ligeramente más oscuro al hover */
-  color: var(--text-primary);
-  text-decoration: underline;
-}
-    
-    /* Asegura que el SVG se vea bien en todos los tamaños */
-    .event-list .location svg {
-      flex-shrink: 0; /* evita que el ícono se contraiga */
-    }
-    .event-list .address-text {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin-top: 4px;
-  display: block;
-  font-weight: 500;
-}
-
-.event-list .map-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  background-color: rgba(13, 71, 161, 0.08); /* tono suave del acento */
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.event-list .map-link:hover {
-  background-color: rgba(13, 71, 161, 0.15);
-  text-decoration: underline;
-}
-
     footer {
       text-align: center;
       margin-top: 30px;
@@ -449,122 +359,82 @@
       }
     }
 
-      .event-list .address-text {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-top: 4px;
-    display: block;
-    font-weight: 500;
-  }
-  
-  .event-list .map-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 4px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    background-color: rgba(13, 71, 161, 0.08);
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-  }
-  
-  .event-list .map-link:hover {
-    background-color: rgba(13, 71, 161, 0.15);
-    text-decoration: underline;
-  }
+    /* --- EVENTOS: ESTILO UNIFICADO Y LIMPIO --- */
+    .event-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .event-item {
+      padding: 16px 0;
+      border-bottom: 1px dashed var(--border-color);
+    }
+    .event-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .event-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .event-header h4 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    .event-meta {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .meta-row svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      width: 14px;
+      height: 14px;
+      color: var(--text-link);
+    }
+
+    .meta-row a.map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background-color: rgba(13, 71, 161, 0.08);
+      transition: background-color 0.2s;
+    }
+    .meta-row a.map-link:hover {
+      background-color: rgba(13, 71, 161, 0.15);
+      text-decoration: underline;
+    }
+
+    /* Móviles: apilar ícono y texto */
     @media (max-width: 600px) {
-  .event-list .date,
-  .event-list .address-text,
-  .event-list .map-link {
-    margin-bottom: 4px;
-  }
-}
-    .event-list li:first-child {
-  border-left: 3px solid var(--accent);
-  padding-left: 12px;
-}
-    /* --- NUEVO: Estilo para lista de eventos moderna --- */
-.event-list {
-  list-style: none;
-  padding: 0;
-}
-
-.event-item {
-  padding: 16px 0;
-  border-bottom: 1px dashed var(--border-color);
-}
-.event-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.event-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-.event-header .event-icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-.event-meta {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.meta-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-.meta-row svg {
-  flex-shrink: 0;
-  margin-top: 2px;
-  color: var(--text-link);
-}
-
-.meta-row a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.85rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-.meta-row a:hover {
-  background-color: rgba(13, 71, 161, 0.1);
-  text-decoration: underline;
-}
-
-/* Para móviles: más espacio vertical */
-@media (max-width: 600px) {
-  .meta-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .meta-row svg {
-    margin: 0 0 4px 0;
-  }
-}
- .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}
-</style>
+      .meta-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+      .meta-row svg {
+        margin: 0;
+      }
+    }
   </style>
 </head>
 <body id="body">
@@ -578,96 +448,98 @@
           <span class="tag">📅 Actualizado 02-02-2026</span>
         </div>
       </div>
-      <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro">
-      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro"></button>
     </div>
 
-    <!-- SECCIÓN: PRÓXIMOS EVENTOS (UNIFICADOS EN UNA SOLA CARD) -->
+    <!-- SECCIÓN: PRÓXIMOS EVENTOS -->
     <h2>📅 Próximos Eventos</h2>
     <div class="grid">
       <div class="card reminder">
-      <ul class="event-list">
-        <!-- Evento 1: Visita de Pastoreo -->
-        <li class="event-item">
-          <div class="event-header">
-            <span class="event-icon">📌</span>
-            <h4>Visita de Pastoreo – Cuerpo Gobernante</h4>
-          </div>
-          <div class="event-meta">
-            <div class="meta-row">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              <span>sáb, 28 de feb de 2026 | 9:00 hrs</span>
+        <h3>🗓️ Eventos importantes</h3>
+        <ul class="event-list">
+          <!-- Evento 1: Visita de Pastoreo -->
+          <li class="event-item">
+            <div class="event-header">
+              <span aria-hidden="true">📌</span>
+              <h4>Visita de Pastoreo – Cuerpo Gobernante</h4>
             </div>
-            <div class="meta-row">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0-7-9-3-9-3s-9-4-9 3a9 9 0 0 0 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-              <span>Claro Arena, Cv Las Flores 13000, Las Condes</span>
+            <div class="event-meta">
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>sáb, 28 de feb de 2026 | 9:00 hrs</span>
+              </div>
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2"/>
+                </svg>
+                <span>Claro Arena, Cv Las Flores 13000, Las Condes</span>
+              </div>
+              <div class="meta-row">
+                <a href="https://maps.app.goo.gl/cvubd8LbmFmk9Xqb9" 
+                   target="_blank" 
+                   rel="noopener"
+                   class="map-link"
+                   aria-label="Abrir ubicación en Google Maps">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                  </svg>
+                  Ver en Google Maps
+                </a>
+              </div>
             </div>
-            <div class="meta-row">
-              <a href="https://maps.app.goo.gl/cvubd8LbmFmk9Xqb9" 
-                 target="_blank" 
-                 rel="noopener"
-                 class="map-link"
-                 aria-label="Abrir ubicación en Google Maps">
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=map" />
-                Ver en Google Maps
-              </a>
+          </li>
+
+          <!-- Evento 2: Conmemoración -->
+          <li class="event-item">
+            <div class="event-header">
+              <span aria-hidden="true">🕯️</span>
+              <h4>Conmemoración</h4>
             </div>
-          </div>
-        </li>
-      
-        <!-- Evento 2: Conmemoración -->
-        <li class="event-item">
-          <div class="event-header">
-            <h4>Conmemoración</h4>
-          </div>
-          <div class="event-meta">
-            <div class="meta-row">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              <span>jue, 2 de abr de 2026</span>
+            <div class="event-meta">
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>jue, 2 de abr de 2026</span>
+              </div>
             </div>
-            <!-- Sin ubicación → no mostramos fila de mapa -->
-          </div>
-        </li>
-      
-        <!-- Evento 3: Asamblea de circuito -->
-        <li class="event-item">
-          <div class="event-header">
-            <h4>Asamblea de circuito</h4>
-          </div>
-          <div class="event-meta">
-            <div class="meta-row">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              <span>sáb, 2 de may de 2026</span>
+          </li>
+
+          <!-- Evento 3: Asamblea de circuito -->
+          <li class="event-item">
+            <div class="event-header">
+              <span aria-hidden="true">👥</span>
+              <h4>Asamblea de circuito</h4>
             </div>
-            <div class="meta-row">
-              <span class="material-symbols-outlined">
-              map
-              </span>
-              <span>Puente Alto - Puente Alto (Met. RM-CHL)</span>
+            <div class="event-meta">
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>sáb, 2 de may de 2026</span>
+              </div>
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2"/>
+                </svg>
+                <span>Puente Alto - Puente Alto (Met. RM-CHL)</span>
+              </div>
             </div>
-            <!-- Si NO tienes enlace de mapa, omite esta fila -->
-          </div>
-        </li>
-      </ul>
-     
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -693,7 +565,7 @@
 
     <h2>Reuniones Regulares</h2>
     <div class="grid">
-      <a href="https://jworg.zoom.us/j/83830674412    " target="_blank" class="card recurrent" tabindex="0">
+      <a href="https://jworg.zoom.us/j/83830674412" target="_blank" class="card recurrent" tabindex="0">
         <h3 title="Únete a las reuniones semanales por Zoom">📹 Únete a las reuniones</h3>
         <p>Martes 20:00 · Sábado 18:00</p>
         <div class="next-meeting" id="nextMeeting">Cargando...</div>
@@ -739,9 +611,7 @@
       <p><strong>RUT:</strong> 9.372.286-8</p>
       <p><strong>Nombre:</strong> Jorge Barrera</p>
       <p><strong>Correo:</strong> cuentas.altosdelraco@gmail.com</p>
-      <button class="copy-btn" id="copyData">
-        Copiar datos
-      </button>
+      <button class="copy-btn" id="copyData">Copiar datos</button>
     </div>
   </div>
 
@@ -749,12 +619,10 @@
     <div class="modal-content">
       <button class="close-btn" id="closeZoomModal" aria-label="Cerrar ventana de Zoom">&times;</button>
       <h3 id="zoomModalTitle">Datos técnicos de Zoom</h3>
-      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412    " target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
+      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412" target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
       <p><strong>ID de reunión:</strong> 838 3067 4412</p>
       <p><strong>Código de acceso:</strong> 306868</p>
-      <button class="copy-btn" id="copyZoomData">
-        Copiar todo
-      </button>
+      <button class="copy-btn" id="copyZoomData">Copiar todo</button>
     </div>
   </div>
 
@@ -883,7 +751,7 @@
     if (copyZoomBtn) {
       const originalHTML = copyZoomBtn.innerHTML;
       copyZoomBtn.addEventListener('click', () => {
-        const text = `Enlace: https://jworg.zoom.us/j/83830674412    \nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
+        const text = `Enlace: https://jworg.zoom.us/j/83830674412\nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text).then(() => {
             copyZoomBtn.innerHTML = '✅ ¡Copiado!';
