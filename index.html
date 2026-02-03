@@ -300,6 +300,33 @@
     .event-list .location svg {
       flex-shrink: 0; /* evita que el ícono se contraiga */
     }
+    .event-list .address-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
+}
+
+.event-list .map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: rgba(13, 71, 161, 0.08); /* tono suave del acento */
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.event-list .map-link:hover {
+  background-color: rgba(13, 71, 161, 0.15);
+  text-decoration: underline;
+}
 
     footer {
       text-align: center;
@@ -445,24 +472,25 @@
         <h3>🗓️ Eventos importantes</h3>
         <ul class="event-list">
     
-          <li>
-            <h4>📌 Visita de Pastoreo – Cuerpo Gobernante</h4>
-            <div class="date">sáb, 28 de feb de 2026 | 9:00 hrs</div>
-           <div class="location">
-              <a href="https://maps.app.goo.gl/cvubd8LbmFmk9Xqb9" 
-                 target="_blank" 
-                 rel="noopener"
-                 aria-label="Abrir ubicación en Google Maps">
-                <span class="map-link">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0-7-9-3-9-3s-9-4-9 3a9 9 0 0 0 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                  Ver en mapas
-                </span>
-              </a>
-            </div>
-          </li>
+         <li>
+          <h4>📌 Visita de Pastoreo – Cuerpo Gobernante</h4>
+          <div class="date">sáb, 28 de feb de 2026 | 9:00 hrs</div>
+          <div class="location">
+            <span class="address-text">📍 Claro Arena, Cv Las Flores 13000, Las Condes, Región Metropolitana</span>
+            <br>
+            <a href="https://maps.app.goo.gl/cvubd8LbmFmk9Xqb9" 
+               target="_blank" 
+               rel="noopener"
+               class="map-link"
+               aria-label="Abrir ubicación en Google Maps: Altos del Raco, Puente Alto">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0-7-9-3-9-3s-9-4-9 3a9 9 0 0 0 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Ver en Google Maps
+            </a>
+          </div>
+        </li>
           <li>
             <h4>Conmemoración</h4>
             <div class="date">jue, 2 de abr de 2026</div>
