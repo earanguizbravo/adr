@@ -359,7 +359,7 @@
       }
     }
 
-    /* --- EVENTOS: ESTILO UNIFICADO Y LIMPIO --- */
+    /* --- EVENTOS: ESTILO UNIFICADO Y OPTIMIZADO PARA MÓVILES --- */
     .event-list {
       list-style: none;
       padding: 0;
@@ -392,18 +392,29 @@
       color: var(--text-secondary);
     }
 
+    /* Estilo robusto para filas de metadatos (fecha, ubicación, mapa) */
     .meta-row {
-      display: flex;
-      align-items: flex-start;
+      display: inline-flex;
+      align-items: center;
       gap: 8px;
       margin-bottom: 6px;
+      min-height: 20px;
+      width: 100%;
     }
+
     .meta-row svg {
       flex-shrink: 0;
-      margin-top: 2px;
       width: 14px;
       height: 14px;
       color: var(--text-link);
+    }
+
+    .meta-row > span,
+    .meta-row a {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.4;
     }
 
     .meta-row a.map-link {
@@ -418,21 +429,23 @@
       border-radius: 5px;
       background-color: rgba(13, 71, 161, 0.08);
       transition: background-color 0.2s;
+      white-space: nowrap;
     }
     .meta-row a.map-link:hover {
       background-color: rgba(13, 71, 161, 0.15);
       text-decoration: underline;
     }
 
-    /* Móviles: apilar ícono y texto */
+    /* Ajuste específico para pantallas pequeñas */
     @media (max-width: 600px) {
       .meta-row {
-        flex-direction: column;
+        display: flex;
+        flex-wrap: wrap;
         align-items: flex-start;
-        gap: 4px;
+        gap: 6px;
       }
       .meta-row svg {
-        margin: 0;
+        margin-top: 2px;
       }
     }
   </style>
@@ -498,6 +511,7 @@
           <!-- Evento 2: Conmemoración -->
           <li class="event-item">
             <div class="event-header">
+              <span aria-hidden="true">🕯️</span>
               <h4>Conmemoración</h4>
             </div>
             <div class="event-meta">
@@ -516,6 +530,7 @@
           <!-- Evento 3: Asamblea de circuito -->
           <li class="event-item">
             <div class="event-header">
+              <span aria-hidden="true">👥</span>
               <h4>Asamblea de circuito</h4>
             </div>
             <div class="event-meta">
