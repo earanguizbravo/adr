@@ -371,18 +371,18 @@
       line-height: 1.6;
     }
 
+    /* CORRECCIÓN: Meta rows - Iconos y texto en misma línea */
     .meta-row {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 6px;
-      min-height: 20px;
       width: 100%;
-      flex-wrap: wrap;
+      flex-wrap: nowrap; /* ← IMPORTANTE: Evita que los elementos se envuelvan */
     }
 
     .meta-row svg {
-      flex-shrink: 0;
+      flex-shrink: 0; /* ← IMPORTANTE: Evita que el SVG se encoja */
       width: 14px;
       height: 14px;
       color: var(--text-link);
@@ -416,28 +416,25 @@
       transform: scale(1.03);
     }
 
-    /* Recordatorio de servicio - SUTIL dentro de eventos */
+    /* CORRECCIÓN: Recordatorio de servicio - Iconos y texto en misma línea */
     .service-reminder-inline {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px dashed var(--border-color);
+      margin-top: 8px;
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
     .service-date-row {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 6px;
-      min-height: 20px;
       width: 100%;
-      flex-wrap: wrap;
+      flex-wrap: nowrap; /* ← IMPORTANTE: Evita que los elementos se envuelvan */
     }
 
     .service-date-row svg {
-      flex-shrink: 0;
+      flex-shrink: 0; /* ← IMPORTANTE: Evita que el SVG se encoja */
       width: 14px;
       height: 14px;
       color: var(--text-link);
@@ -447,14 +444,16 @@
       font-size: 0.85rem;
       color: var(--text-secondary);
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .service-badges {
       display: flex;
       gap: 10px;
-      flex-wrap: wrap;
+      flex-wrap: wrap; /* ← Este SÍ puede tener wrap para los badges */
       align-items: center;
       width: 100%;
+      margin-top: 5px;
     }
 
     .service-badge {
@@ -467,6 +466,7 @@
       font-size: 0.85rem;
       font-weight: 600;
       color: var(--text-link) !important;
+      white-space: nowrap;
     }
 
     .service-badge.today {
@@ -681,9 +681,7 @@
       }
 
       .meta-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
+        flex-wrap: wrap; /* En móviles permitir wrap si es necesario */
       }
 
       .meta-row a.map-link {
@@ -695,6 +693,14 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+      }
+
+      .service-date-row {
+        flex-wrap: wrap; /* En móviles permitir wrap si es necesario */
+      }
+
+      .service-date {
+        white-space: normal;
       }
     }
 
@@ -747,17 +753,31 @@
         <h1>Tablero digital Altos del Raco</h1>
         <p>Bienvenidos al tablero digital de Altos del Raco</p>
         <div class="tags">
-          <span class="tag">📅 Actualizado 15-02-2026</span>
+          <span class="tag">📅 Actualizado 23-02-2026</span>
         </div>
       </div>
     </div>
 
-    <!-- SECCIÓN: PRÓXIMOS EVENTOS (con recordatorio de servicio integrado) -->
+    <!-- SECCIÓN: PRÓXIMOS EVENTOS -->
     <h2>📅 Próximos Eventos</h2>
     <div class="grid">
       <div class="card reminder">
         <ul class="event-list">
-          <!-- Evento 1: Visita de Pastoreo -->
+          
+          <!-- PRIMER ITEM: Grupos de Servicio (Limpieza/Hospitalidad) -->
+          <li class="event-item">
+            <div class="event-header">
+              <span aria-hidden="true">🧹</span>
+              <h4>Grupos de Servicio</h4>
+            </div>
+            <div class="event-meta">
+              <div id="serviceReminder">
+                <!-- Se genera dinámicamente con JavaScript -->
+              </div>
+            </div>
+          </li>
+
+          <!-- Evento 2: Visita de Pastoreo -->
           <li class="event-item">
             <div class="event-header">
               <span aria-hidden="true">📌</span>
@@ -791,7 +811,7 @@
             </div>
           </li>
 
-          <!-- Evento 2: Conmemoración -->
+          <!-- Evento 3: Conmemoración -->
           <li class="event-item">
             <div class="event-header">
               <h4>Conmemoración</h4>
@@ -809,7 +829,7 @@
             </div>
           </li>
 
-          <!-- Evento 3: Asamblea de circuito -->
+          <!-- Evento 4: Asamblea de circuito -->
           <li class="event-item">
             <div class="event-header">
               <h4>Asamblea de circuito</h4>
@@ -834,11 +854,6 @@
             </div>
           </li>
         </ul>
-
-        <!-- Recordatorio de servicio - INTEGRADO Y SUTIL -->
-        <div class="service-reminder-inline" id="serviceReminder">
-          <!-- Se genera dinámicamente con JavaScript -->
-        </div>
       </div>
     </div>
 
