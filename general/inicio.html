@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Altos del Raco - Herramientas Digitales</title>
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-primary: #2c3e50;
+      --text-secondary: #555;
+      --accent: #667eea;
+      --accent-hover: #5a67d8;
+      --shadow: 0 10px 40px rgba(0,0,0,0.2);
+      --shadow-hover: 0 20px 60px rgba(0,0,0,0.3);
+      --border-radius: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root.dark-auto {
+        --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        --card-bg: rgba(45, 45, 45, 0.95);
+        --text-primary: #e0e0e0;
+        --text-secondary: #bbbbbb;
+      }
+    }
+
+    .dark-mode {
+      --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      --card-bg: rgba(45, 45, 45, 0.95);
+      --text-primary: #e0e0e0;
+      --text-secondary: #bbbbbb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .logo {
+      height: 100px;
+      width: auto;
+      border-radius: 20px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .header p {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(255,255,255,0.9);
+      font-weight: 400;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      flex: 1;
+      align-items: start;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 40px 30px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease;
+      border: 2px solid transparent;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .tool-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .tool-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(102, 126, 234, 0.3);
+    }
+
+    .tool-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      text-align: center;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    .tool-title {
+      font-size: clamp(1.3rem, 3vw, 1.6rem);
+      text-align: center;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .tool-description {
+      font-size: 0.95rem;
+      text-align: center;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .tool-badge {
+      display: inline-block;
+      padding: 5px 15px;
+      background: rgba(102, 126, 234, 0.15);
+      color: var(--accent);
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .tool-card.new .tool-badge {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      animation: pulse-badge 2s infinite;
+    }
+
+    @keyframes pulse-badge {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      font-size: 1.5rem;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.3);
+      transform: rotate(180deg) scale(1.1);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      padding: 20px;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        height: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 15px;
+      }
+
+      .tool-card {
+        padding: 30px 20px;
+      }
+
+      .tool-icon {
+        font-size: 3rem;
+      }
+
+      .logo {
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body id="body">
+  <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro" title="Cambiar tema">🌓</button>
+
+  <div class="container">
+    <div class="header">
+      <img src="general/logo.jpeg" alt="Logo Altos del Raco" class="logo">
+      <h1>Altos del Raco</h1>
+      <p>Herramientas Digitales para la Congregación</p>
+    </div>
+
+    <div class="tools-grid">
+      <!-- Herramienta 1: Tablero Digital Principal -->
+      <a href="index.html" class="tool-card">
+        <span class="tool-icon">📋</span>
+        <h2 class="tool-title">Tablero Digital</h2>
+        <p class="tool-description">
+          Accede a programas, archivos, reuniones Zoom, privilegios y más.
+        </p>
+        <span class="tool-badge">Principal</span>
+      </a>
+
+      <!-- Herramienta 2: Panel de Proyección -->
+      <a href="grupos-servicio.html" class="tool-card">
+        <span class="tool-icon">🖥️</span>
+        <h2 class="tool-title">Panel de Proyección</h2>
+        <p class="tool-description">
+          Pantalla para proyectar los grupos asignados de limpieza y hospitalidad.
+        </p>
+        <span class="tool-badge">Pantalla Completa</span>
+      </a>
+
+      <!-- Herramienta 3: Próximamente (ejemplo para futuras herramientas) -->
+      <a href="#" class="tool-card new" onclick="return false;">
+        <span class="tool-icon">🔜</span>
+        <h2 class="tool-title">Próximamente</h2>
+        <p class="tool-description">
+          Nuevas herramientas en desarrollo. ¡Mantente atento!
+        </p>
+        <span class="tool-badge">Nuevo</span>
+      </a>
+    </div>
+
+    <div class="footer">
+      <p>© Congregación Altos del Raco</p>
+      <p style="margin-top: 8px; opacity: 0.7;">Herramientas digitales para el servicio</p>
+    </div>
+  </div>
+
+  <script>
+    // Modo oscuro/claro
+    const body = document.getElementById('body');
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme-portal');
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        body.classList.remove('dark-auto');
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme-portal', 'dark');
+      } else {
+        body.classList.remove('dark-mode', 'dark-auto');
+        localStorage.setItem('theme-portal', 'light');
+      }
+    }
+
+    if (savedTheme === 'dark') setTheme('dark');
+    else if (savedTheme === 'light') setTheme('light');
+
+    themeToggle.addEventListener('click', () => {
+      if (body.classList.contains('dark-mode') || body.classList.contains('dark-auto')) {
+        setTheme('light');
+      } else {
+        setTheme('dark');
+      }
+    });
+
+    // Animación escalonada para las tarjetas
+    document.querySelectorAll('.tool-card').forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.15}s`;
+    });
+  </script>
+</body>
+</html>
