@@ -237,7 +237,7 @@
       animation: fadeInUp 0.6s ease;
       border: 2px solid transparent;
       backdrop-filter: blur(5px);
-      overflow: hidden; /* ← CORRECCIÓN: Evita que el ::before se salga */
+      overflow: hidden;
     }
 
     .card:nth-child(1) { animation-delay: 0.1s; }
@@ -416,16 +416,115 @@
       transform: scale(1.03);
     }
 
+    /* Recordatorio de servicio - SUTIL dentro de eventos */
+    .service-reminder-inline {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px dashed var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .service-date-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      min-height: 20px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .service-date-row svg {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      color: var(--text-link);
+    }
+
+    .service-date {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .service-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+    }
+
+    .service-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 15px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-link) !important;
+    }
+
+    .service-badge.today {
+      background: rgba(255, 215, 0, 0.2);
+      color: #b7950b !important;
+    }
+
+    .service-badge span {
+      font-size: 1rem;
+    }
+
     /* Footer */
     footer {
       text-align: center;
-      margin-top: clamp(30px, 6vw, 50px);
-      padding: 20px;
-      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      margin-top: clamp(40px, 6vw, 60px);
+      padding: 25px 20px;
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
       color: var(--footer-text);
       transition: color var(--transition);
       animation: fadeInUp 0.6s ease;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .footer-copyright {
+      opacity: 0.8;
+    }
+
+    .footer-tools-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      border-radius: 15px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .footer-tools-link:hover {
+      background: rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.95);
+      border-color: rgba(255,255,255,0.4);
+      transform: scale(1.05);
     }
 
     /* Modales */
@@ -591,6 +690,12 @@
         width: 100%;
         justify-content: center;
       }
+
+      .service-reminder-inline {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -647,7 +752,7 @@
       </div>
     </div>
 
-    <!-- SECCIÓN: PRÓXIMOS EVENTOS -->
+    <!-- SECCIÓN: PRÓXIMOS EVENTOS (con recordatorio de servicio integrado) -->
     <h2>📅 Próximos Eventos</h2>
     <div class="grid">
       <div class="card reminder">
@@ -729,6 +834,11 @@
             </div>
           </li>
         </ul>
+
+        <!-- Recordatorio de servicio - INTEGRADO Y SUTIL -->
+        <div class="service-reminder-inline" id="serviceReminder">
+          <!-- Se genera dinámicamente con JavaScript -->
+        </div>
       </div>
     </div>
 
@@ -782,8 +892,16 @@
       </div>
     </div>
 
+    <!-- FOOTER con enlace a herramientas -->
     <footer>
-      © Altos del Raco – Tablero digital actualizado.
+      <div class="footer-content">
+        <div class="footer-copyright">
+          © Altos del Raco – Tablero digital actualizado.
+        </div>
+        <a href="herramientas.html" class="footer-tools-link">
+          <span>🔧</span> Herramientas Congregación
+        </a>
+      </div>
     </footer>
   </div>
 
@@ -816,7 +934,123 @@
   </div>
 
   <script>
-    // Próxima reunión
+    // ============================================
+    // LÓGICA DE GRUPOS DE SERVICIO (Limpieza/Hospitalidad)
+    // ============================================
+    const baseDate = new Date('2026-02-24');
+    const baseCleaningGroup = 3;
+    const baseSaturday = new Date('2026-02-21');
+    const baseHospitalityGroup = 2;
+
+    function getDayName(date) {
+      const days = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+      return days[date.getDay()];
+    }
+
+    function getMonthName(date) {
+      const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+      return months[date.getMonth()];
+    }
+
+    function formatDate(date) {
+      const dayName = getDayName(date);
+      const day = date.getDate();
+      const month = getMonthName(date);
+      const year = date.getFullYear();
+      return `${dayName}, ${day} de ${month} de ${year}`;
+    }
+
+    function calculateGroup(baseDate, baseGroup, targetDate) {
+      const diffTime = targetDate - baseDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const meetingsPassed = Math.floor(diffDays / 3.5);
+      const group = ((baseGroup - 1 + meetingsPassed) % 5) + 1;
+      return group;
+    }
+
+    function calculateCleaningGroup(meetingDate) {
+      return calculateGroup(baseDate, baseCleaningGroup, meetingDate);
+    }
+
+    function calculateHospitalityGroup(saturdayDate) {
+      return calculateGroup(baseSaturday, baseHospitalityGroup, saturdayDate);
+    }
+
+    function findNextMeetingDay() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      let nextDay = new Date(today);
+      
+      while (nextDay.getDay() !== 2 && nextDay.getDay() !== 6) {
+        nextDay.setDate(nextDay.getDate() + 1);
+      }
+      
+      return nextDay;
+    }
+
+    function isToday(date) {
+      const today = new Date();
+      return date.toDateString() === today.toDateString();
+    }
+
+    function updateServiceReminder() {
+      const nextMeetingDay = findNextMeetingDay();
+      const isTodayMeeting = isToday(nextMeetingDay);
+      const isSaturday = (nextMeetingDay.getDay() === 6);
+      
+      const cleaningGroup = calculateCleaningGroup(nextMeetingDay);
+      const hospitalityGroup = isSaturday ? calculateHospitalityGroup(nextMeetingDay) : null;
+      
+      const dateStr = formatDate(nextMeetingDay);
+      
+      // SVG de calendario (igual que los eventos)
+      const calendarIcon = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      `;
+      
+      // Estructura igual que las meta-rows de eventos
+      let html = `
+        <div class="service-date-row">
+          ${calendarIcon}
+          <span class="service-date">${dateStr}</span>
+        </div>
+        <div class="service-badges">
+      `;
+      
+      // Badge de Limpieza
+      html += `
+        <div class="service-badge ${isTodayMeeting ? 'today' : ''}">
+          <span>🧹</span> Limpieza: Grupo ${cleaningGroup}
+        </div>
+      `;
+      
+      // Badge de Hospitalidad (solo sábados)
+      if (isSaturday && hospitalityGroup) {
+        html += `
+          <div class="service-badge ${isTodayMeeting ? 'today' : ''}">
+            <span>🤝</span> Hospitalidad: Grupo ${hospitalityGroup}
+          </div>
+        `;
+      }
+      
+      if (isTodayMeeting) {
+        html += `<span style="font-size: 0.8rem; color: #b7950b; font-weight: 700;">(HOY)</span>`;
+      }
+      
+      html += `</div>`;
+      
+      document.getElementById('serviceReminder').innerHTML = html;
+    }
+
+    // ============================================
+    // PRÓXIMA REUNIÓN ZOOM
+    // ============================================
     function getNextMeetingText() {
       const now = new Date();
       const day = now.getDay();
@@ -841,7 +1075,9 @@
     }
     document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
 
-    // Modo oscuro/claro
+    // ============================================
+    // MODO OSCURO/CLARO
+    // ============================================
     const sunIcon = '☀️';
     const moonIcon = '🌙';
 
@@ -880,7 +1116,9 @@
       }
     });
 
-    // Botón volver arriba
+    // ============================================
+    // BOTÓN VOLVER ARRIBA
+    // ============================================
     const backToTopButton = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
       backToTopButton.classList.toggle('show', window.scrollY > 300);
@@ -889,7 +1127,9 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Modales y copiado
+    // ============================================
+    // MODALES Y COPIADO
+    // ============================================
     function resetCopyButton(btn, original) {
       btn.innerHTML = original;
     }
@@ -971,6 +1211,12 @@
         document.body.style.overflow = '';
       }
     });
+
+    // ============================================
+    // INICIALIZAR
+    // ============================================
+    updateServiceReminder();
+    setInterval(updateServiceReminder, 60000);
   </script>
 </body>
 </html>
