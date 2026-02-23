@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tablero digital Altos del Raco</title>
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --card-bg: rgba(255, 255, 255, 0.98);
+      --text-primary: #2c3e50;
+      --text-secondary: #555;
+      --text-link: #0277bd;
+      --header-bg: rgba(255, 255, 255, 0.98);
+      --border-color: rgba(0,0,0,0.1);
+      --shadow: 0 10px 40px rgba(0,0,0,0.15);
+      --shadow-hover: 0 20px 60px rgba(0,0,0,0.25);
+      --accent: #0d47a1;
+      --accent-hover: #1565c0;
+      --tag-bg: #e3f2fd;
+      --tag-text: #0d47a1;
+      --recurrent-bg: #e8f4f8;
+      --footer-text: rgba(255,255,255,0.9);
+      --modal-bg: rgba(255, 255, 255, 0.98);
+      --transition: 0.3s ease;
+      --border-radius: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root.dark-auto {
+        --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        --card-bg: rgba(45, 45, 45, 0.98);
+        --text-primary: #e0e0e0;
+        --text-secondary: #bbbbbb;
+        --text-link: #64b5f6;
+        --header-bg: rgba(45, 45, 45, 0.98);
+        --border-color: rgba(255,255,255,0.1);
+        --shadow: 0 10px 40px rgba(0,0,0,0.3);
+        --shadow-hover: 0 20px 60px rgba(0,0,0,0.5);
+        --accent: #64b5f6;
+        --accent-hover: #42a5f5;
+        --tag-bg: rgba(100, 181, 246, 0.15);
+        --tag-text: #64b5f6;
+        --recurrent-bg: #2a3540;
+        --footer-text: rgba(255,255,255,0.7);
+        --modal-bg: rgba(45, 45, 45, 0.98);
+      }
+    }
+
+    .dark-mode {
+      --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      --card-bg: rgba(45, 45, 45, 0.98);
+      --text-primary: #e0e0e0;
+      --text-secondary: #bbbbbb;
+      --text-link: #64b5f6;
+      --header-bg: rgba(45, 45, 45, 0.98);
+      --border-color: rgba(255,255,255,0.1);
+      --shadow: 0 10px 40px rgba(0,0,0,0.3);
+      --shadow-hover: 0 20px 60px rgba(0,0,0,0.5);
+      --accent: #64b5f6;
+      --accent-hover: #42a5f5;
+      --tag-bg: rgba(100, 181, 246, 0.15);
+      --tag-text: #64b5f6;
+      --recurrent-bg: #2a3540;
+      --footer-text: rgba(255,255,255,0.7);
+      --modal-bg: rgba(45, 45, 45, 0.98);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      margin: 0;
+      padding: 20px;
+      color: var(--text-primary);
+      transition: background var(--transition);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* Animaciones */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    /* Header */
+    .header {
+      background: var(--header-bg);
+      border-radius: var(--border-radius);
+      padding: clamp(15px, 3vw, 25px);
+      box-shadow: var(--shadow);
+      margin-bottom: clamp(20px, 4vw, 40px);
+      display: flex;
+      align-items: center;
+      gap: clamp(10px, 2vw, 20px);
+      position: relative;
+      transition: background var(--transition), box-shadow var(--transition);
+      animation: fadeInDown 0.6s ease;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .header img {
+      height: clamp(40px, 8vw, 60px);
+      width: auto;
+      border-radius: 15px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      transition: transform 0.3s ease;
+    }
+
+    .header img:hover {
+      transform: scale(1.05);
+    }
+
+    .header-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .header-text h1 {
+      margin: 0;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      color: var(--text-primary);
+      transition: color var(--transition);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .header-text p {
+      margin: 5px 0 10px;
+      color: var(--text-secondary);
+      transition: color var(--transition);
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    }
+
+    .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      font-weight: 600;
+      transition: all var(--transition);
+      border: 1px solid var(--border-color);
+    }
+
+    .tag:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      font-size: 1.3rem;
+      padding: 0;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.3);
+      transform: rotate(180deg) scale(1.1);
+    }
+
+    /* Títulos de sección - SIEMPRE BLANCOS */
+    h2 {
+      color: white !important;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+      margin: clamp(25px, 5vw, 40px) 0 clamp(15px, 3vw, 25px);
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      font-weight: 700;
+      animation: fadeInUp 0.6s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Grid de tarjetas */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 40vw, 280px), 1fr));
+      gap: clamp(15px, 3vw, 25px);
+      margin-bottom: clamp(20px, 4vw, 40px);
+    }
+
+    /* Tarjetas - SIEMPRE CON FONDO BLANCO/SÓLIDO */
+    .card {
+      background: var(--card-bg) !important;
+      padding: clamp(15px, 3vw, 25px);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: var(--text-primary) !important;
+      display: block;
+      position: relative;
+      animation: fadeInUp 0.6s ease;
+      border: 2px solid transparent;
+      backdrop-filter: blur(5px);
+      overflow: hidden; /* ← CORRECCIÓN: Evita que el ::before se salga */
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(13, 71, 161, 0.3);
+    }
+
+    .card:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .card.recurrent {
+      background: var(--recurrent-bg) !important;
+      border-left: 4px solid var(--accent);
+    }
+
+    .card.reminder {
+      background: var(--recurrent-bg) !important;
+      border-left: 4px solid #ff7675;
+    }
+
+    .card.reminder h3 {
+      color: #d63031 !important;
+      font-weight: 700;
+    }
+
+    .card h3 {
+      margin: 0 0 clamp(8px, 2vw, 12px);
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: var(--accent) !important;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color var(--transition);
+      font-weight: 700;
+    }
+
+    .card p,
+    .zoom-details-trigger {
+      margin: 0;
+      font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+      color: var(--text-link) !important;
+      transition: color var(--transition);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .zoom-details-trigger {
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 8px;
+      display: inline-block;
+      font-weight: 600;
+    }
+
+    .zoom-details-trigger:hover {
+      color: var(--accent-hover) !important;
+    }
+
+    .next-meeting {
+      margin-top: 10px;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      color: var(--text-link) !important;
+      font-weight: 700;
+      padding: 8px 12px;
+      background: rgba(13, 71, 161, 0.1);
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    /* Eventos - Lista */
+    .event-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .event-item {
+      padding: clamp(12px, 3vw, 20px) 0;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .event-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .event-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .event-header h4 {
+      margin: 0;
+      font-size: clamp(0.95rem, 3vw, 1.1rem);
+      color: var(--text-primary) !important;
+      font-weight: 700;
+    }
+
+    .event-meta {
+      font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+      color: var(--text-secondary) !important;
+      line-height: 1.6;
+    }
+
+    .meta-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      min-height: 20px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .meta-row svg {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      color: var(--text-link);
+    }
+
+    .meta-row > span,
+    .meta-row a {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.4;
+    }
+
+    .meta-row a.map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent) !important;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(13, 71, 161, 0.1);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .meta-row a.map-link:hover {
+      background: rgba(13, 71, 161, 0.2);
+      transform: scale(1.03);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: clamp(30px, 6vw, 50px);
+      padding: 20px;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      color: var(--footer-text);
+      transition: color var(--transition);
+      animation: fadeInUp 0.6s ease;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Modales */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      transition: background-color var(--transition);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: var(--modal-bg);
+      padding: clamp(20px, 4vw, 30px);
+      border-radius: var(--border-radius);
+      max-width: 450px;
+      width: 90%;
+      text-align: left;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      color: var(--text-primary);
+      transition: all var(--transition);
+      box-sizing: border-box;
+      animation: fadeInUp 0.4s ease;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .modal-content a {
+      color: var(--accent);
+      transition: color var(--transition);
+      word-break: break-all;
+      font-weight: 600;
+    }
+
+    .modal-content a:hover {
+      color: var(--accent-hover);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: var(--text-secondary);
+      float: right;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: all var(--transition);
+      line-height: 1;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      background: rgba(13, 71, 161, 0.1);
+      color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .modal-content .copy-btn {
+      margin: 20px auto 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: auto;
+      min-width: 180px;
+      transition: all var(--transition);
+      box-shadow: 0 4px 15px rgba(13, 71, 161, 0.3);
+    }
+
+    .modal-content .copy-btn:hover,
+    .modal-content .copy-btn:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(13, 71, 161, 0.4);
+      outline: none;
+    }
+
+    .modal-content .copy-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Botón volver arriba */
+    #backToTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(13, 71, 161, 0.4);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+      animation: pulse 2s infinite;
+    }
+
+    #backToTop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #backToTop:hover {
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 8px 25px rgba(13, 71, 161, 0.5);
+    }
+
+    /* Responsive */
+    @media (min-width: 768px) {
+      #backToTop {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 15px;
+      }
+
+      .header-text {
+        width: 100%;
+      }
+
+      .tags {
+        justify-content: center;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .meta-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .meta-row a.map-link {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px 10px;
+      }
+
+      .header {
+        padding: 15px 12px;
+      }
+
+      .header img {
+        height: 45px;
+      }
+
+      .card {
+        padding: 18px 15px;
+      }
+
+      .modal-content {
+        padding: 20px 15px;
+        width: 95%;
+      }
+    }
+
+    /* Accesibilidad */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Focus visible para navegación por teclado */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body id="body">
+  <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro" title="Cambiar tema">🌓</button>
+
+  <div class="container">
+    <div class="header">
+      <img src="general/logo.jpeg" alt="Logo del Tablero Digital Altos del Raco">
+      <div class="header-text">
+        <h1>Tablero digital Altos del Raco</h1>
+        <p>Bienvenidos al tablero digital de Altos del Raco</p>
+        <div class="tags">
+          <span class="tag">📅 Actualizado 15-02-2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: PRÓXIMOS EVENTOS -->
+    <h2>📅 Próximos Eventos</h2>
+    <div class="grid">
+      <div class="card reminder">
+        <ul class="event-list">
+          <!-- Evento 1: Visita de Pastoreo -->
+          <li class="event-item">
+            <div class="event-header">
+              <span aria-hidden="true">📌</span>
+              <h4>Visita de Pastoreo – Cuerpo Gobernante</h4>
+            </div>
+            <div class="event-meta">
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>sáb, 28 de feb de 2026 | 9:00 hrs</span>
+              </div>
+              <div class="meta-row">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2"/>
+                </svg> Claro Arena - Cv Las Flores 13000, Las Condes, Región Metropolitana</span>
+              </div>  
+              <div class="meta-row">
+                <a href="https://maps.app.goo.gl/cvubd8LbmFmk9Xqb9" 
+                   target="_blank" 
+                   rel="noopener"
+                   class="map-link"
+                   aria-label="Abrir ubicación en Google Maps">
+                  Ver en Google Maps 
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <!-- Evento 2: Conmemoración -->
+          <li class="event-item">
+            <div class="event-header">
+              <h4>Conmemoración</h4>
+            </div>
+            <div class="event-meta">
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>jue, 2 de abr de 2026</span>
+              </div>
+            </div>
+          </li>
+
+          <!-- Evento 3: Asamblea de circuito -->
+          <li class="event-item">
+            <div class="event-header">
+              <h4>Asamblea de circuito</h4>
+            </div>
+            <div class="event-meta">
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>sáb, 2 de may de 2026</span>
+              </div>
+              <div class="meta-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2"/>
+                </svg>
+                <span>Puente Alto - Puente Alto (Met. RM-CHL)</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>📁 Archivos de Febrero</h2>
+    <div class="grid">
+      <a href="feb/VMC_FEB26.pdf" target="_blank" class="card">
+        <h3 title="Programa de la reunión de Vida y Ministerio Cristián">🗓️ Programa reunión (VMC)</h3>
+        <p>Calendario · PDF</p>
+      </a>
+      <a href="feb/Programa_predicacion_FEB26_2.pdf" target="_blank" class="card">
+        <h3 title="Programa de predicación del mes">🗓️ Programa de predicación</h3>
+        <p>Fechas y territorios · PDF</p>
+      </a>
+      <a href="feb/Privilegios_2026-02.pdf" target="_blank" class="card">
+        <h3 title="Privilegios de habla y participación">🎤 Privilegios</h3>
+        <p>Audio · Video · Micrófonos · PDF</p>
+      </a>
+      <a href="feb/Programa_ADR_febrero26.pdf" target="_blank" class="card">
+        <h3 title="Programa de discursos públicos">📢 Programa discursos</h3>
+        <p>Calendario de discursos · PDF</p>
+      </a>
+    </div>
+
+    <h2>📹 Reuniones Zoom</h2>
+    <div class="grid">
+      <a href="https://jworg.zoom.us/j/83830674412" target="_blank" class="card recurrent" tabindex="0">
+        <h3 title="Únete a las reuniones semanales por Zoom">🔗 Únete a las reuniones</h3>
+        <p>Martes 20:00 · Sábado 18:00</p>
+        <div class="next-meeting" id="nextMeeting">Cargando...</div>
+        <span class="zoom-details-trigger" id="openZoomDetails">Ver ID y código de acceso</span>
+      </a>
+    </div>
+
+    <h2>📚 Archivos Generales</h2>
+    <div class="grid">
+      <a href="general/Puntos_predicacion_publica.pdf" target="_blank" class="card">
+        <h3 title="Puntos bíblicos para la predicación pública">💬 Puntos para la Predicación Pública</h3>
+        <p>Documento · PDF</p>
+      </a>
+      <a href="general/MAPA_ADR_2025_2.pdf" target="_blank" class="card">
+        <h3 title="Mapa con zonas de predicación 2025">🗺️ Mapa ADR</h3>
+        <p>Documento · PDF</p>
+      </a>
+      <a href="general/Grupos_Predicacion_nov25.pdf" target="_blank" class="card">
+        <h3 title="Grupos asignados para la predicación">👥 Grupos de Predicación</h3>
+        <p>Documento · PDF</p>
+      </a>
+      <div class="card" id="transferenciaCard" tabindex="0">
+        <h3 title="Datos bancarios para donaciones o ofrendas">💳 Datos de transferencia</h3>
+        <p>Cuenta bancaria · Copiar fácilmente</p>
+      </div>
+    </div>
+
+    <footer>
+      © Altos del Raco – Tablero digital actualizado.
+    </footer>
+  </div>
+
+  <button id="backToTop" aria-label="Volver al inicio">↑</button>
+
+  <!-- Modales -->
+  <div id="transferModal" class="modal" role="dialog" aria-labelledby="transferModalTitle">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal" aria-label="Cerrar ventana de transferencia">&times;</button>
+      <h3 id="transferModalTitle" style="margin-top:0; color:var(--accent);">Datos de Transferencia</h3>
+      <p><strong>Banco:</strong> Banco de Chile</p>
+      <p><strong>Tipo de cuenta:</strong> Cuenta Vista</p>
+      <p><strong>Número de cuenta:</strong> 75225240</p>
+      <p><strong>RUT:</strong> 9.372.286-8</p>
+      <p><strong>Nombre:</strong> Jorge Barrera</p>
+      <p><strong>Correo:</strong> cuentas.altosdelraco@gmail.com</p>
+      <button class="copy-btn" id="copyData">📋 Copiar datos</button>
+    </div>
+  </div>
+
+  <div id="zoomModal" class="modal" role="dialog" aria-labelledby="zoomModalTitle">
+    <div class="modal-content">
+      <button class="close-btn" id="closeZoomModal" aria-label="Cerrar ventana de Zoom">&times;</button>
+      <h3 id="zoomModalTitle" style="margin-top:0; color:var(--accent);">Datos técnicos de Zoom</h3>
+      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412" target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
+      <p><strong>ID de reunión:</strong> 838 3067 4412</p>
+      <p><strong>Código de acceso:</strong> 306868</p>
+      <button class="copy-btn" id="copyZoomData">📋 Copiar todo</button>
+    </div>
+  </div>
+
+  <script>
+    // Próxima reunión
+    function getNextMeetingText() {
+      const now = new Date();
+      const day = now.getDay();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const currentMinutes = hours * 60 + minutes;
+
+      if (day === 6 && currentMinutes < 18 * 60) return "Hoy a las 18:00";
+      if (day === 2 && currentMinutes < 20 * 60) return "Hoy a las 20:00";
+
+      let daysToAdd;
+      if (day < 2) daysToAdd = 2 - day;
+      else if (day < 6) daysToAdd = 6 - day;
+      else daysToAdd = 2 + (7 - day);
+
+      const nextDate = new Date(now);
+      nextDate.setDate(now.getDate() + daysToAdd);
+      const options = { weekday: 'long', day: 'numeric', month: 'short' };
+      const formattedDate = nextDate.toLocaleDateString('es-ES', options);
+      const time = (nextDate.getDay() === 6) ? '18:00' : '20:00';
+      return `${formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)} a las ${time}`;
+    }
+    document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
+
+    // Modo oscuro/claro
+    const sunIcon = '☀️';
+    const moonIcon = '🌙';
+
+    const body = document.getElementById('body');
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme');
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        body.classList.remove('dark-auto');
+        body.classList.add('dark-mode');
+        themeToggle.textContent = sunIcon;
+        localStorage.setItem('theme', 'dark');
+      } else {
+        body.classList.remove('dark-mode', 'dark-auto');
+        themeToggle.textContent = moonIcon;
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    if (savedTheme === 'dark') setTheme('dark');
+    else if (savedTheme === 'light') setTheme('light');
+    else if (prefersDark) {
+      body.classList.add('dark-auto');
+      themeToggle.textContent = sunIcon;
+    } else {
+      themeToggle.textContent = moonIcon;
+    }
+
+    themeToggle.addEventListener('click', () => {
+      if (body.classList.contains('dark-mode') || body.classList.contains('dark-auto')) {
+        setTheme('light');
+      } else {
+        setTheme('dark');
+      }
+    });
+
+    // Botón volver arriba
+    const backToTopButton = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTopButton.classList.toggle('show', window.scrollY > 300);
+    });
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Modales y copiado
+    function resetCopyButton(btn, original) {
+      btn.innerHTML = original;
+    }
+
+    // Transferencia
+    const transferModal = document.getElementById('transferModal');
+    document.getElementById('transferenciaCard')?.addEventListener('click', () => {
+      transferModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
+    document.getElementById('closeModal')?.addEventListener('click', () => {
+      transferModal.style.display = 'none';
+      document.body.style.overflow = '';
+    });
+    window.addEventListener('click', e => {
+      if (e.target === transferModal) {
+        transferModal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    });
+
+    const copyDataBtn = document.getElementById('copyData');
+    if (copyDataBtn) {
+      const originalHTML = copyDataBtn.innerHTML;
+      copyDataBtn.addEventListener('click', () => {
+        const text = `Banco: Banco de Chile\nTipo de cuenta: Cuenta Vista\nNúmero de cuenta: 75225240\nRUT: 9.372.286-8\nNombre: Jorge Barrera\nCorreo: cuentas.altosdelraco@gmail.com`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => {
+            copyDataBtn.innerHTML = '✅ ¡Copiado!';
+            setTimeout(() => resetCopyButton(copyDataBtn, originalHTML), 2000);
+          }).catch(() => {
+            copyDataBtn.innerHTML = '⚠️ Error';
+            setTimeout(() => resetCopyButton(copyDataBtn, originalHTML), 2500);
+          });
+        }
+      });
+    }
+
+    // Zoom
+    const zoomModal = document.getElementById('zoomModal');
+    document.getElementById('openZoomDetails')?.addEventListener('click', e => {
+      e.preventDefault();
+      zoomModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
+    document.getElementById('closeZoomModal')?.addEventListener('click', () => {
+      zoomModal.style.display = 'none';
+      document.body.style.overflow = '';
+    });
+    window.addEventListener('click', e => {
+      if (e.target === zoomModal) {
+        zoomModal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    });
+
+    const copyZoomBtn = document.getElementById('copyZoomData');
+    if (copyZoomBtn) {
+      const originalHTML = copyZoomBtn.innerHTML;
+      copyZoomBtn.addEventListener('click', () => {
+        const text = `Enlace: https://jworg.zoom.us/j/83830674412\nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => {
+            copyZoomBtn.innerHTML = '✅ ¡Copiado!';
+            setTimeout(() => resetCopyButton(copyZoomBtn, originalHTML), 2000);
+          }).catch(() => {
+            copyZoomBtn.innerHTML = '⚠️ Error';
+            setTimeout(() => resetCopyButton(copyZoomBtn, originalHTML), 2500);
+          });
+        }
+      });
+    }
+
+    // Cerrar modales con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        transferModal.style.display = 'none';
+        zoomModal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+</body>
+</html>
