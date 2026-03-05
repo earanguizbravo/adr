@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenidos queridos hermanos</title>
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --text-primary: #ffffff;
+      --text-glow: rgba(255, 255, 255, 0.6);
+      --heart-color: #ff6b9d;
+      --sparkle-color: #ffd93d;
+      --shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root.dark-auto {
+        --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      }
+    }
+
+    .dark-mode {
+      --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    /* Partículas flotantes de fondo */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--text-glow);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Contenedor principal del mensaje */
+    .welcome-container {
+      text-align: center;
+      padding: 40px;
+      max-width: 900px;
+      animation: fadeInUp 1.2s ease;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Corazones decorativos */
+    .hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 1.5rem;
+      color: var(--heart-color);
+      animation: heartFloat 6s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes heartFloat {
+      0% {
+        transform: translateY(100px) scale(0);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* Texto principal con efecto */
+    .welcome-text {
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.3;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      background: linear-gradient(135deg, #fff 0%, #f0f0f0 50%, #fff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: textGlow 3s ease-in-out infinite alternate;
+      letter-spacing: 2px;
+    }
+
+    @keyframes textGlow {
+      from {
+        filter: drop-shadow(0 0 10px var(--text-glow));
+      }
+      to {
+        filter: drop-shadow(0 0 25px var(--text-glow));
+      }
+    }
+
+    /* Subtítulo decorativo */
+    .welcome-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      margin-top: 20px;
+      opacity: 0.9;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      animation: fadeIn 2s ease 0.5s both;
+    }
+
+    /* Emoji decorativo central */
+    .emoji-decoration {
+      font-size: clamp(3rem, 8vw, 6rem);
+      margin: 25px 0;
+      animation: bounce 2s ease infinite;
+      display: block;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-15px) scale(1.05); }
+    }
+
+    /* Animaciones de entrada */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Toggle de tema */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      font-size: 1.5rem;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.3);
+      transform: rotate(180deg) scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .welcome-container {
+        padding: 30px 20px;
+      }
+      
+      .theme-toggle {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+      }
+    }
+
+    /* Efecto de brillo al pasar el mouse */
+    .welcome-container:hover .welcome-text {
+      animation: textGlow 1.5s ease-in-out infinite alternate;
+    }
+  </style>
+</head>
+<body id="body">
+  <!-- Toggle de tema -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro" title="Cambiar tema">🌓</button>
+
+  <!-- Partículas de fondo -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Corazones flotantes -->
+  <div class="hearts" id="hearts"></div>
+
+  <!-- Mensaje principal -->
+  <div class="welcome-container">
+    <span class="emoji-decoration">🙏✨</span>
+    <h1 class="welcome-text">Bienvenidos queridos hermanos</h1>
+    <p class="welcome-subtitle">Unidos en amor y servicio</p>
+  </div>
+
+  <script>
+    // Crear partículas flotantes
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const particleCount = 25;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+        particle.style.width = particle.style.height = (4 + Math.random() * 8) + 'px';
+        container.appendChild(particle);
+      }
+    }
+
+    // Crear corazones flotantes
+    function createHearts() {
+      const container = document.getElementById('hearts');
+      const heartCount = 12;
+      const hearts = ['❤️', '💜', '💙', '✨', '🤍'];
+      
+      for (let i = 0; i < heartCount; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 6 + 's';
+        container.appendChild(heart);
+      }
+    }
+
+    // Toggle modo oscuro/claro
+    const body = document.getElementById('body');
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme-welcome');
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        body.classList.remove('dark-auto');
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme-welcome', 'dark');
+      } else {
+        body.classList.remove('dark-mode', 'dark-auto');
+        localStorage.setItem('theme-welcome', 'light');
+      }
+    }
+
+    if (savedTheme === 'dark') setTheme('dark');
+    else if (savedTheme === 'light') setTheme('light');
+
+    themeToggle.addEventListener('click', () => {
+      if (body.classList.contains('dark-mode') || body.classList.contains('dark-auto')) {
+        setTheme('light');
+        themeToggle.innerHTML = '🌓';
+      } else {
+        setTheme('dark');
+        themeToggle.innerHTML = '☀️';
+      }
+    });
+
+    // Inicializar efectos
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      createHearts();
+    });
+  </script>
+</body>
+</html>
