@@ -6,7 +6,7 @@
   <title>Tablero digital Altos del Raco</title>
   <style>
     :root {
-      --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --bg-primary: linear-gradient(135deg, #a8d8ea 0%, #56c7d9 50%, #40a4c8 100%);
       --card-bg: rgba(255, 255, 255, 0.98);
       --text-primary: #2c3e50;
       --text-secondary: #555;
@@ -28,7 +28,7 @@
 
     @media (prefers-color-scheme: dark) {
       :root.dark-auto {
-        --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        --bg-primary: linear-gradient(135deg, #1a3a4a 0%, #2d5a6b 50%, #1e4a5a 100%);
         --card-bg: rgba(45, 45, 45, 0.98);
         --text-primary: #e0e0e0;
         --text-secondary: #bbbbbb;
@@ -48,7 +48,7 @@
     }
 
     .dark-mode {
-      --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      --bg-primary: linear-gradient(135deg, #1a3a4a 0%, #2d5a6b 50%, #1e4a5a 100%);
       --card-bg: rgba(45, 45, 45, 0.98);
       --text-primary: #e0e0e0;
       --text-secondary: #bbbbbb;
@@ -753,7 +753,7 @@
         <h1>Tablero digital Altos del Raco</h1>
         <p>Bienvenidos al tablero digital de Altos del Raco</p>
         <div class="tags">
-          <span class="tag">📅 Actualizado 01-03-2026</span>
+          <span class="tag">📅 Actualizado 06-03-2026</span>
         </div>
       </div>
     </div>
@@ -880,7 +880,7 @@
 
     <h2>📹 Reuniones Zoom</h2>
     <div class="grid">
-      <a href="https://jworg.zoom.us/j/83830674412" target="_blank" class="card recurrent" tabindex="0">
+      <a href="https://jworg.zoom.us/j/83830674412  " target="_blank" class="card recurrent" tabindex="0">
         <h3 title="Únete a las reuniones semanales por Zoom">🔗 Únete a las reuniones</h3>
         <p>Martes 20:00 · Sábado 18:00</p>
         <div class="next-meeting" id="nextMeeting">Cargando...</div>
@@ -942,7 +942,7 @@
     <div class="modal-content">
       <button class="close-btn" id="closeZoomModal" aria-label="Cerrar ventana de Zoom">&times;</button>
       <h3 id="zoomModalTitle" style="margin-top:0; color:var(--accent);">Datos Acceso Zoom</h3>
-      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412" target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
+      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412  " target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
       <p><strong>ID de reunión:</strong> 838 3067 4412</p>
       <p><strong>Código de acceso:</strong> 306868</p>
       <button class="copy-btn" id="copyZoomData">📋 Copiar todo</button>
@@ -1206,7 +1206,7 @@
     if (copyZoomBtn) {
       const originalHTML = copyZoomBtn.innerHTML;
       copyZoomBtn.addEventListener('click', () => {
-        const text = `Enlace: https://jworg.zoom.us/j/83830674412\nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
+        const text = `Enlace: https://jworg.zoom.us/j/83830674412  \nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text).then(() => {
             copyZoomBtn.innerHTML = '✅ ¡Copiado!';
