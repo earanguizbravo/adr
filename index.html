@@ -25,6 +25,7 @@
       --event-chip-bg: rgba(255, 255, 255, 0.95);
       --event-chip-text: #2c3e50;
       --event-chip-date: #555;
+      --notification-dot: #ff5252;
       --transition: 0.3s ease;
       --border-radius: 20px;
     }
@@ -50,6 +51,7 @@
         --event-chip-bg: rgba(255, 255, 255, 0.1);
         --event-chip-text: #e0e0e0;
         --event-chip-date: #bbbbbb;
+        --notification-dot: #ff6b6b;
       }
     }
 
@@ -73,6 +75,7 @@
       --event-chip-bg: rgba(255, 255, 255, 0.1);
       --event-chip-text: #e0e0e0;
       --event-chip-date: #bbbbbb;
+      --notification-dot: #ff6b6b;
     }
 
     * {
@@ -110,6 +113,11 @@
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.03); }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(0.9); }
     }
 
     /* Header */
@@ -391,12 +399,24 @@
       border: 2px solid rgba(255,255,255,0.3);
       transition: all 0.3s ease;
       cursor: default;
+      position: relative;
     }
 
     .event-chip:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 20px rgba(0,0,0,0.15);
       border-color: rgba(13, 71, 161, 0.3);
+    }
+
+    /* Punto de notificación */
+    .notification-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--notification-dot);
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: dotPulse 2s ease-in-out infinite;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
     }
 
     .chip-content {
@@ -692,6 +712,9 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
+      .notification-dot {
+        animation: none !important;
+      }
     }
 
     /* Focus visible para navegación por teclado */
@@ -720,24 +743,28 @@
     <h2>📅 Próximos Eventos</h2>
     <div class="events-compact">
       <div class="event-chip">
+        <div class="notification-dot" aria-label="Evento nuevo"></div>
         <div class="chip-content">
           <strong>Conmemoración</strong>
           <span>jue, 2 de abr de 2026</span>
         </div>
       </div>
       <div class="event-chip">
+        <div class="notification-dot" aria-label="Evento nuevo"></div>
         <div class="chip-content">
           <strong>Asamblea de circuito</strong>
           <span>sáb, 2 de may de 2026</span>
         </div>
       </div>
       <div class="event-chip">
+        <div class="notification-dot" aria-label="Evento nuevo"></div>
         <div class="chip-content">
           <strong>Visita superintendente de circuito</strong>
           <span>mar, 23 de jun – dom, 28 de jun de 2026</span>
         </div>
       </div>
       <div class="event-chip">
+        <div class="notification-dot" aria-label="Evento nuevo"></div>
         <div class="chip-content">
           <strong>Asamblea de circuito - representante de la sucursal</strong>
           <span>dom, 30 de ago de 2026</span>
@@ -773,7 +800,7 @@
 
     <h2>📹 Reuniones Zoom</h2>
     <div class="grid">
-      <a href="https://jworg.zoom.us/j/83830674412  " target="_blank" class="card recurrent" tabindex="0">
+      <a href="https://jworg.zoom.us/j/83830674412    " target="_blank" class="card recurrent" tabindex="0">
         <h3 title="Únete a las reuniones semanales por Zoom">🔗 Únete a las reuniones</h3>
         <p>Martes 20:00 · Sábado 18:00</p>
         <div class="next-meeting" id="nextMeeting">Cargando...</div>
@@ -835,7 +862,7 @@
     <div class="modal-content">
       <button class="close-btn" id="closeZoomModal" aria-label="Cerrar ventana de Zoom">&times;</button>
       <h3 id="zoomModalTitle" style="margin-top:0; color:var(--accent);">Datos Acceso Zoom</h3>
-      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412  " target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
+      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412    " target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
       <p><strong>ID de reunión:</strong> 838 3067 4412</p>
       <p><strong>Código de acceso:</strong> 306868</p>
       <button class="copy-btn" id="copyZoomData">📋 Copiar todo</button>
@@ -1099,7 +1126,7 @@
     if (copyZoomBtn) {
       const originalHTML = copyZoomBtn.innerHTML;
       copyZoomBtn.addEventListener('click', () => {
-        const text = `Enlace: https://jworg.zoom.us/j/83830674412  \nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
+        const text = `Enlace: https://jworg.zoom.us/j/83830674412    \nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text).then(() => {
             copyZoomBtn.innerHTML = '✅ ¡Copiado!';
