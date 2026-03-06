@@ -81,7 +81,7 @@
       }
     }
 
-    /* Contenedor principal - AHORA MÁS GRANDE */
+    /* Contenedor principal */
     .welcome-container {
       text-align: center;
       padding: 40px;
@@ -108,12 +108,13 @@
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      width: 120px;
+      min-width: 120px;
       height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0.85;
+      overflow: hidden;
     }
 
     .logo-item:hover {
@@ -129,13 +130,32 @@
       display: block;
     }
 
-    /* Logo JW.ORG - mismo tamaño */
+    /* Logo JW.ORG - TEXTO en lugar de imagen */
     .logo-jw {
       background: rgba(74, 111, 165, 0.95);
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      letter-spacing: 1px;
     }
 
-    .logo-jw img {
-      filter: brightness(0) invert(1);
+    .logo-jw-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .logo-jw-text .jw {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .logo-jw-text .org {
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0.9;
     }
 
     /* Corazones decorativos */
@@ -174,7 +194,7 @@
       }
     }
 
-    /* Texto principal - MUCHO MÁS GRANDE */
+    /* Texto principal */
     .welcome-text {
       font-size: clamp(3rem, 10vw, 7rem);
       font-weight: 900;
@@ -198,7 +218,7 @@
       }
     }
 
-    /* Subtítulo - también más grande */
+    /* Subtítulo */
     .welcome-subtitle {
       font-size: clamp(1.3rem, 3.5vw, 2rem);
       margin-top: 30px;
@@ -210,7 +230,7 @@
       text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
 
-    /* Emoji decorativo - MÁS GRANDE */
+    /* Emoji decorativo */
     .emoji-decoration {
       font-size: clamp(5rem, 12vw, 9rem);
       margin: 30px 0;
@@ -266,6 +286,37 @@
       transform: rotate(180deg) scale(1.1);
     }
 
+    /* BOTÓN DE PANTALLA COMPLETA */
+    .fullscreen-toggle {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      font-size: 1.3rem;
+    }
+
+    .fullscreen-toggle:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.1);
+    }
+
+    .fullscreen-toggle.active {
+      background: rgba(255, 215, 0, 0.3);
+      border-color: #ffd700;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .logos-container {
@@ -275,26 +326,40 @@
       }
       
       .logo-item {
-        width: 90px;
+        min-width: 90px;
         height: 50px;
         padding: 8px 12px;
+        font-size: 0.9rem;
       }
       
       .welcome-container {
         padding: 20px 15px;
       }
       
-      .theme-toggle {
+      .theme-toggle,
+      .fullscreen-toggle {
         width: 44px;
         height: 44px;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+      }
+
+      .fullscreen-toggle {
+        top: 70px;
       }
     }
 
     @media (max-width: 480px) {
       .logo-item {
-        width: 70px;
+        min-width: 70px;
         height: 40px;
+      }
+
+      .logo-jw-text .jw {
+        font-size: 1.1rem;
+      }
+
+      .logo-jw-text .org {
+        font-size: 0.75rem;
       }
     }
 
@@ -305,6 +370,7 @@
 </head>
 <body id="body">
   <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro" title="Cambiar tema">🌓</button>
+  <button class="fullscreen-toggle" id="fullscreenToggle" aria-label="Pantalla completa" title="Pantalla completa (F11)">⛶</button>
 
   <div class="particles" id="particles"></div>
   <div class="hearts" id="hearts"></div>
@@ -312,7 +378,10 @@
   <!-- Logos en la esquina superior izquierda -->
   <div class="logos-container">
     <div class="logo-item logo-jw">
-      <img src="general/JW_Logo.svg" alt="JW.ORG">
+      <div class="logo-jw-text">
+        <span class="jw">JW</span>
+        <span class="org">.ORG</span>
+      </div>
     </div>
     <div class="logo-item">
       <img src="general/logo.jpeg" alt="Altos del Raco">
@@ -356,6 +425,7 @@
       }
     }
 
+    // Modo oscuro/claro
     const body = document.getElementById('body');
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme-welcome');
@@ -384,6 +454,45 @@
       }
     });
 
+    // PANTALLA COMPLETA
+    const fullscreenToggle = document.getElementById('fullscreenToggle');
+    
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          fullscreenToggle.classList.add('active');
+          fullscreenToggle.innerHTML = '⛶';
+        }).catch(err => {
+          console.log('Error al activar pantalla completa:', err);
+        });
+      } else {
+        document.exitFullscreen().then(() => {
+          fullscreenToggle.classList.remove('active');
+          fullscreenToggle.innerHTML = '⛶';
+        });
+      }
+    }
+
+    fullscreenToggle.addEventListener('click', toggleFullscreen);
+
+    // También con tecla F11
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'F11') {
+        e.preventDefault();
+        toggleFullscreen();
+      }
+    });
+
+    // Detectar cambios de pantalla completa
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        fullscreenToggle.classList.add('active');
+      } else {
+        fullscreenToggle.classList.remove('active');
+      }
+    });
+
+    // Inicializar
     document.addEventListener('DOMContentLoaded', () => {
       createParticles();
       createHearts();
