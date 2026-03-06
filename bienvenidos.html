@@ -130,32 +130,17 @@
       display: block;
     }
 
-    /* Logo JW.ORG - TEXTO en lugar de imagen */
+    /* Logo JW.ORG - con imagen SVG */
     .logo-jw {
       background: rgba(74, 111, 165, 0.95);
-      font-family: 'Segoe UI', sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: white;
-      letter-spacing: 1px;
+      padding: 8px 12px;
     }
 
-    .logo-jw-text {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 1;
-    }
-
-    .logo-jw-text .jw {
-      font-size: 1.4rem;
-      font-weight: 800;
-    }
-
-    .logo-jw-text .org {
-      font-size: 0.9rem;
-      font-weight: 600;
-      opacity: 0.9;
+    .logo-jw img {
+      /* Sin filtros - se muestra el SVG original */
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     /* Corazones decorativos */
@@ -329,7 +314,6 @@
         min-width: 90px;
         height: 50px;
         padding: 8px 12px;
-        font-size: 0.9rem;
       }
       
       .welcome-container {
@@ -353,14 +337,6 @@
         min-width: 70px;
         height: 40px;
       }
-
-      .logo-jw-text .jw {
-        font-size: 1.1rem;
-      }
-
-      .logo-jw-text .org {
-        font-size: 0.75rem;
-      }
     }
 
     .welcome-container:hover .welcome-text {
@@ -378,10 +354,7 @@
   <!-- Logos en la esquina superior izquierda -->
   <div class="logos-container">
     <div class="logo-item logo-jw">
-      <div class="logo-jw-text">
-        <span class="jw">JW</span>
-        <span class="org">.ORG</span>
-      </div>
+      <img src="general/JW_Logo.svg" alt="JW.ORG">
     </div>
     <div class="logo-item">
       <img src="general/logo.jpeg" alt="Altos del Raco">
