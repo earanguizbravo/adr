@@ -10,6 +10,7 @@
       --bg-primary: linear-gradient(135deg, #5a6c7d 0%, #4a5568 100%);
       --text-primary: #ffffff;
       --text-glow: rgba(255, 255, 255, 0.6);
+      --heart-color: #ff6b9d;
       --sparkle-color: #ffd93d;
       --shadow: 0 10px 40px rgba(0,0,0,0.2);
     }
@@ -77,6 +78,42 @@
       }
       100% {
         transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Corazones decorativos flotantes */
+    .hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 1.5rem;
+      color: var(--heart-color);
+      animation: heartFloat 6s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes heartFloat {
+      0% {
+        transform: translateY(100px) scale(0);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) scale(1.2);
         opacity: 0;
       }
     }
@@ -297,6 +334,7 @@
   <button class="fullscreen-toggle" id="fullscreenToggle" aria-label="Pantalla completa" title="Pantalla completa (F11)">⛶</button>
 
   <div class="particles" id="particles"></div>
+  <div class="hearts" id="hearts"></div>
 
   <!-- Logo en la esquina superior izquierda -->
   <div class="logos-container">
@@ -307,7 +345,7 @@
 
   <div class="welcome-container">
     <h1 class="welcome-text">Bienvenidos queridos hermanos</h1>
-    <p class="welcome-subtitle">Coordinación Conmemoración</p>
+    <p class="welcome-subtitle">Coordinación Conmemoración 2026</p>
     <p class="footer-info">Jueves 2 de abril de 2026 - Salón de asambleas Puente Alto</p>
   </div>
 
@@ -324,6 +362,21 @@
         particle.style.animationDuration = (15 + Math.random() * 10) + 's';
         particle.style.width = particle.style.height = (4 + Math.random() * 8) + 'px';
         container.appendChild(particle);
+      }
+    }
+
+    function createHearts() {
+      const container = document.getElementById('hearts');
+      const heartCount = 12;
+      const hearts = ['❤️', '💜', '💙', '✨', '🤍'];
+      
+      for (let i = 0; i < heartCount; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 6 + 's';
+        container.appendChild(heart);
       }
     }
 
@@ -397,6 +450,7 @@
     // Inicializar
     document.addEventListener('DOMContentLoaded', () => {
       createParticles();
+      createHearts();
     });
   </script>
 </body>
