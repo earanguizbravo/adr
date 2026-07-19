@@ -6,76 +6,78 @@
   <title>Tablero digital Altos del Raco</title>
   <style>
     :root {
-      --bg-primary: linear-gradient(135deg, #a8d8ea 0%, #56c7d9 50%, #40a4c8 100%);
-      --card-bg: rgba(255, 255, 255, 0.98);
-      --text-primary: #2c3e50;
-      --text-secondary: #555;
-      --text-link: #0277bd;
-      --header-bg: rgba(255, 255, 255, 0.98);
-      --border-color: rgba(0,0,0,0.1);
-      --shadow: 0 10px 40px rgba(0,0,0,0.15);
-      --shadow-hover: 0 20px 60px rgba(0,0,0,0.25);
-      --accent: #0d47a1;
-      --accent-hover: #1565c0;
-      --tag-bg: #e3f2fd;
-      --tag-text: #0d47a1;
-      --recurrent-bg: #e8f4f8;
-      --footer-text: rgba(255,255,255,0.9);
+      /* PALETA "CIELO SUAVE": Fresca, optimista y acogedora, sin ser invasiva */
+      --bg-primary: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-link: #0284c7;
+      --header-bg: rgba(255, 255, 255, 0.95);
+      --border-color: rgba(14, 165, 233, 0.15);
+      --shadow: 0 10px 40px rgba(14, 165, 233, 0.08);
+      --shadow-hover: 0 20px 60px rgba(14, 165, 233, 0.15);
+      --accent: #0369a1;
+      --accent-hover: #0284c7;
+      --tag-bg: #e0f2fe;
+      --tag-text: #0369a1;
+      --recurrent-bg: #f0f9ff;
+      --footer-text: #ffffff;
       --modal-bg: rgba(255, 255, 255, 0.98);
-      --event-chip-bg: rgba(255, 255, 255, 0.95);
-      --event-chip-text: #2c3e50;
-      --event-chip-date: #555;
-      --notification-dot: #ff5252;
+      --event-chip-bg: rgba(255, 255, 255, 0.9);
+      --event-chip-text: #0f172a;
+      --event-chip-date: #475569;
+      --notification-dot: #f43f5e;
       --transition: 0.3s ease;
       --border-radius: 20px;
     }
 
     @media (prefers-color-scheme: dark) {
       :root.dark-auto {
-        --bg-primary: linear-gradient(135deg, #1a3a4a 0%, #2d5a6b 50%, #1e4a5a 100%);
-        --card-bg: rgba(45, 45, 45, 0.98);
-        --text-primary: #e0e0e0;
-        --text-secondary: #bbbbbb;
-        --text-link: #64b5f6;
-        --header-bg: rgba(45, 45, 45, 0.98);
-        --border-color: rgba(255,255,255,0.1);
+        /* MODO OSCURO: Azul noche profundo y acogedor, no gris triste */
+        --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        --card-bg: rgba(30, 41, 59, 0.95);
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --text-link: #38bdf8;
+        --header-bg: rgba(30, 41, 59, 0.95);
+        --border-color: rgba(56, 189, 248, 0.15);
         --shadow: 0 10px 40px rgba(0,0,0,0.3);
         --shadow-hover: 0 20px 60px rgba(0,0,0,0.5);
-        --accent: #64b5f6;
-        --accent-hover: #42a5f5;
-        --tag-bg: rgba(100, 181, 246, 0.15);
-        --tag-text: #64b5f6;
-        --recurrent-bg: #2a3540;
-        --footer-text: rgba(255,255,255,0.7);
-        --modal-bg: rgba(45, 45, 45, 0.98);
-        --event-chip-bg: rgba(255, 255, 255, 0.1);
-        --event-chip-text: #e0e0e0;
-        --event-chip-date: #bbbbbb;
-        --notification-dot: #ff6b6b;
+        --accent: #38bdf8;
+        --accent-hover: #7dd3fc;
+        --tag-bg: rgba(56, 189, 248, 0.15);
+        --tag-text: #7dd3fc;
+        --recurrent-bg: #1e293b;
+        --footer-text: #cbd5e1;
+        --modal-bg: rgba(30, 41, 59, 0.98);
+        --event-chip-bg: rgba(255, 255, 255, 0.05);
+        --event-chip-text: #f1f5f9;
+        --event-chip-date: #cbd5e1;
+        --notification-dot: #fb7185;
       }
     }
 
     .dark-mode {
-      --bg-primary: linear-gradient(135deg, #1a3a4a 0%, #2d5a6b 50%, #1e4a5a 100%);
-      --card-bg: rgba(45, 45, 45, 0.98);
-      --text-primary: #e0e0e0;
-      --text-secondary: #bbbbbb;
-      --text-link: #64b5f6;
-      --header-bg: rgba(45, 45, 45, 0.98);
-      --border-color: rgba(255,255,255,0.1);
+      --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      --card-bg: rgba(30, 41, 59, 0.95);
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-link: #38bdf8;
+      --header-bg: rgba(30, 41, 59, 0.95);
+      --border-color: rgba(56, 189, 248, 0.15);
       --shadow: 0 10px 40px rgba(0,0,0,0.3);
       --shadow-hover: 0 20px 60px rgba(0,0,0,0.5);
-      --accent: #64b5f6;
-      --accent-hover: #42a5f5;
-      --tag-bg: rgba(100, 181, 246, 0.15);
-      --tag-text: #64b5f6;
-      --recurrent-bg: #2a3540;
-      --footer-text: rgba(255,255,255,0.7);
-      --modal-bg: rgba(45, 45, 45, 0.98);
-      --event-chip-bg: rgba(255, 255, 255, 0.1);
-      --event-chip-text: #e0e0e0;
-      --event-chip-date: #bbbbbb;
-      --notification-dot: #ff6b6b;
+      --accent: #38bdf8;
+      --accent-hover: #7dd3fc;
+      --tag-bg: rgba(56, 189, 248, 0.15);
+      --tag-text: #7dd3fc;
+      --recurrent-bg: #1e293b;
+      --footer-text: #cbd5e1;
+      --modal-bg: rgba(30, 41, 59, 0.98);
+      --event-chip-bg: rgba(255, 255, 255, 0.05);
+      --event-chip-text: #f1f5f9;
+      --event-chip-date: #cbd5e1;
+      --notification-dot: #fb7185;
     }
 
     * {
@@ -99,7 +101,6 @@
       margin: auto;
     }
 
-    /* Animaciones */
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -120,7 +121,11 @@
       50% { opacity: 0.7; transform: scale(0.9); }
     }
 
-    /* Header */
+    @keyframes slideLeftRight {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-5px); }
+    }
+
     .header {
       background: var(--header-bg);
       border-radius: var(--border-radius);
@@ -133,15 +138,15 @@
       position: relative;
       transition: background var(--transition), box-shadow var(--transition);
       animation: fadeInDown 0.6s ease;
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.6);
     }
 
     .header img {
       height: clamp(40px, 8vw, 60px);
       width: auto;
       border-radius: 15px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
       transition: transform 0.3s ease;
     }
 
@@ -189,17 +194,16 @@
 
     .tag:hover {
       transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.15);
     }
 
-    /* Theme Toggle */
     .theme-toggle {
       position: fixed;
       top: 20px;
       right: 20px;
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.8);
       backdrop-filter: blur(10px);
-      border: 2px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(14, 165, 233, 0.2);
       width: 50px;
       height: 50px;
       border-radius: 50%;
@@ -207,22 +211,35 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: white;
+      color: var(--accent);
       transition: all 0.3s ease;
       z-index: 1000;
       font-size: 1.3rem;
       padding: 0;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.15);
+    }
+
+    .dark-mode .theme-toggle,
+    .dark-auto .theme-toggle {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      color: #7dd3fc;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
     .theme-toggle:hover {
-      background: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,1);
       transform: rotate(180deg) scale(1.1);
     }
 
-    /* Títulos de sección - SIEMPRE BLANCOS */
+    .dark-mode .theme-toggle:hover,
+    .dark-auto .theme-toggle:hover {
+      background: rgba(30, 41, 59, 1);
+    }
+
     h2 {
-      color: white !important;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+      color: var(--accent) !important;
+      text-shadow: none;
       margin: clamp(25px, 5vw, 40px) 0 clamp(15px, 3vw, 25px);
       font-size: clamp(1.4rem, 4vw, 1.8rem);
       font-weight: 700;
@@ -230,9 +247,9 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      padding: 0 5px;
     }
 
-    /* Grid de tarjetas */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 40vw, 280px), 1fr));
@@ -240,7 +257,6 @@
       margin-bottom: clamp(20px, 4vw, 40px);
     }
 
-    /* Tarjetas - SIEMPRE CON FONDO BLANCO/SÓLIDO */
     .card {
       background: var(--card-bg) !important;
       padding: clamp(15px, 3vw, 25px);
@@ -252,8 +268,8 @@
       display: block;
       position: relative;
       animation: fadeInUp 0.6s ease;
-      border: 2px solid transparent;
-      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(8px);
       overflow: hidden;
     }
 
@@ -282,7 +298,7 @@
     .card:hover {
       transform: translateY(-6px) scale(1.02);
       box-shadow: var(--shadow-hover);
-      border-color: rgba(13, 71, 161, 0.3);
+      border-color: rgba(14, 165, 233, 0.3);
     }
 
     .card:focus {
@@ -297,11 +313,11 @@
 
     .card.reminder {
       background: var(--recurrent-bg) !important;
-      border-left: 4px solid #ff7675;
+      border-left: 4px solid #f59e0b;
     }
 
     .card.reminder h3 {
-      color: #d63031 !important;
+      color: #d97706 !important;
       font-weight: 700;
     }
 
@@ -345,14 +361,72 @@
       color: var(--text-link) !important;
       font-weight: 700;
       padding: 8px 12px;
-      background: rgba(13, 71, 161, 0.1);
+      background: rgba(14, 165, 233, 0.1);
       border-radius: 10px;
       display: inline-block;
     }
 
-    /* ============================================
-       SECCIÓN: EVENTOS COMPACTOS (CHIPS)
-       ============================================ */
+    .card-meta {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      font-size: 0.75rem;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .service-date-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .service-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .service-badge {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .service-badge.today {
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #fcd34d;
+      animation: pulse 2s infinite;
+    }
+
+    .dark-mode .service-badge.today, .dark-auto .service-badge.today {
+      background: rgba(251, 191, 36, 0.15);
+      color: #fbbf24;
+      border-color: rgba(251, 191, 36, 0.3);
+    }
+
     .events-compact {
       display: flex;
       gap: 12px;
@@ -362,7 +436,7 @@
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.5) rgba(255,255,255,0.2);
+      scrollbar-color: rgba(14, 165, 233, 0.3) rgba(14, 165, 233, 0.1);
     }
 
     .events-compact::-webkit-scrollbar {
@@ -370,17 +444,17 @@
     }
 
     .events-compact::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.2);
+      background: rgba(14, 165, 233, 0.1);
       border-radius: 10px;
     }
 
     .events-compact::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.5);
+      background: rgba(14, 165, 233, 0.3);
       border-radius: 10px;
     }
 
     .events-compact::-webkit-scrollbar-thumb:hover {
-      background: rgba(255,255,255,0.7);
+      background: rgba(14, 165, 233, 0.5);
     }
 
     .event-chip {
@@ -391,12 +465,12 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.08);
       scroll-snap-align: start;
       min-width: 220px;
       max-width: 320px;
       backdrop-filter: blur(10px);
-      border: 2px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.6);
       transition: all 0.3s ease;
       cursor: default;
       position: relative;
@@ -404,11 +478,10 @@
 
     .event-chip:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-      border-color: rgba(13, 71, 161, 0.3);
+      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.15);
+      border-color: rgba(14, 165, 233, 0.3);
     }
 
-    /* Punto de notificación */
     .notification-dot {
       width: 10px;
       height: 10px;
@@ -416,7 +489,7 @@
       border-radius: 50%;
       flex-shrink: 0;
       animation: dotPulse 2s ease-in-out infinite;
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
     }
 
     .chip-content {
@@ -439,11 +512,26 @@
       color: var(--event-chip-date);
       white-space: nowrap;
     }
+    
+    .chip-location {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-    /* Indicador de que se puede deslizar */
+    .chip-countdown {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
     .events-hint {
       text-align: center;
-      color: rgba(255,255,255,0.8);
+      color: var(--text-secondary);
       font-size: 0.85rem;
       margin-top: -10px;
       margin-bottom: 20px;
@@ -456,12 +544,6 @@
       margin-right: 5px;
     }
 
-    @keyframes slideLeftRight {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(-5px); }
-    }
-
-    /* Footer */
     footer {
       text-align: center;
       margin-top: clamp(40px, 6vw, 60px);
@@ -470,11 +552,17 @@
       color: var(--footer-text);
       transition: color var(--transition);
       animation: fadeInUp 0.6s ease;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-      background: rgba(255,255,255,0.1);
+      background: rgba(14, 165, 233, 0.15);
       backdrop-filter: blur(10px);
       border-radius: var(--border-radius);
-      border: 1px solid rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
+    }
+
+    .dark-mode footer,
+    .dark-auto footer {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(56, 189, 248, 0.15);
     }
 
     .footer-content {
@@ -485,32 +573,30 @@
     }
 
     .footer-copyright {
-      opacity: 0.8;
+      opacity: 0.9;
     }
 
     .footer-tools-link {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
-      background: rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.75);
+      padding: 8px 16px;
+      background: var(--accent);
+      color: white;
       text-decoration: none;
       border-radius: 15px;
-      font-weight: 500;
-      font-size: 0.8rem;
+      font-weight: 600;
+      font-size: 0.85rem;
       transition: all 0.3s ease;
-      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 4px 12px rgba(3, 105, 161, 0.25);
     }
 
     .footer-tools-link:hover {
-      background: rgba(255,255,255,0.25);
-      color: rgba(255,255,255,0.95);
-      border-color: rgba(255,255,255,0.4);
-      transform: scale(1.05);
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(3, 105, 161, 0.35);
     }
 
-    /* Modales */
     .modal {
       display: none;
       position: fixed;
@@ -519,11 +605,11 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(15, 23, 42, 0.6);
       justify-content: center;
       align-items: center;
       transition: background-color var(--transition);
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(6px);
     }
 
     .modal-content {
@@ -533,12 +619,12 @@
       max-width: 450px;
       width: 90%;
       text-align: left;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       color: var(--text-primary);
       transition: all var(--transition);
       box-sizing: border-box;
       animation: fadeInUp 0.4s ease;
-      border: 2px solid rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
     }
 
     .modal-content a {
@@ -567,7 +653,7 @@
 
     .close-btn:hover,
     .close-btn:focus {
-      background: rgba(13, 71, 161, 0.1);
+      background: var(--tag-bg);
       color: var(--accent);
       transform: scale(1.1);
     }
@@ -589,13 +675,13 @@
       width: auto;
       min-width: 180px;
       transition: all var(--transition);
-      box-shadow: 0 4px 15px rgba(13, 71, 161, 0.3);
+      box-shadow: 0 4px 15px rgba(3, 105, 161, 0.3);
     }
 
     .modal-content .copy-btn:hover,
     .modal-content .copy-btn:focus {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(13, 71, 161, 0.4);
+      box-shadow: 0 8px 25px rgba(3, 105, 161, 0.4);
       outline: none;
     }
 
@@ -603,7 +689,34 @@
       transform: translateY(0);
     }
 
-    /* Botón volver arriba */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--accent);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 25px;
+      box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3);
+      z-index: 10001;
+      font-weight: 500;
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .dark-mode .toast, .dark-auto .toast {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     #backToTop {
       position: fixed;
       bottom: 20px;
@@ -619,12 +732,11 @@
       justify-content: center;
       font-size: 1.3rem;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(13, 71, 161, 0.4);
+      box-shadow: 0 4px 15px rgba(3, 105, 161, 0.3);
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
       z-index: 999;
-      animation: pulse 2s infinite;
     }
 
     #backToTop.show {
@@ -634,10 +746,9 @@
 
     #backToTop:hover {
       transform: scale(1.1) translateY(-3px);
-      box-shadow: 0 8px 25px rgba(13, 71, 161, 0.5);
+      box-shadow: 0 8px 25px rgba(3, 105, 161, 0.4);
     }
 
-    /* Responsive */
     @media (min-width: 768px) {
       #backToTop {
         display: none !important;
@@ -705,7 +816,6 @@
       }
     }
 
-    /* Accesibilidad */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -717,7 +827,6 @@
       }
     }
 
-    /* Focus visible para navegación por teclado */
     :focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 2px;
@@ -739,46 +848,39 @@
       </div>
     </div>
 
-    <!-- SECCIÓN: PRÓXIMOS EVENTOS (COMPACTA - CHIPS) -->
+    <!-- RESUMEN DE HOY -->
+    <div class="grid" id="serviceReminder" style="display:none;"></div>
+
+    <!-- PRÓXIMOS EVENTOS -->
     <h2>📅 Próximos Eventos</h2>
     <div class="events-compact">
-      <!--div class="event-chip">
-        <div class="notification-dot" aria-label="Evento nuevo"></div>
-        <div class="chip-content">
-          <strong>Conmemoración</strong>
-          <span>HOYjue, 2 de abr de 2026</span>
-        </div>
-    </div-->
-      <!--div class="event-chip">
-        <div class="notification-dot" aria-label="Evento nuevo"></div>
-        <div class="chip-content">
-          <strong>Asamblea de circuito</strong>
-          <span>sáb, 2 de may de 2026</span>
-        </div>
-    </div-->
-      <!--div class="event-chip">
-        <div class="notification-dot" aria-label="Evento nuevo"></div>
-        <div class="chip-content">
-          <strong>Visita superintendente de circuito</strong>
-          <span>mar, 23 de jun – dom, 28 de jun de 2026</span>
-        </div>
-      </div-->
-      <div class="event-chip">
-        <div class="notification-dot" aria-label="Evento nuevo"></div>
+      <div class="event-chip" data-date="2026-08-30">
+        <div class="notification-dot" aria-label="Evento próximo"></div>
         <div class="chip-content">
           <strong>Asamblea de circuito - representante de la sucursal</strong>
           <span>dom, 30 de ago de 2026</span>
+          <div class="chip-countdown"></div>
         </div>
       </div>
 
-      <div class="event-chip">
-        <div class="notification-dot" aria-label="Evento nuevo"></div>
+      <div class="event-chip" data-date="2026-11-13">
+        <div class="notification-dot" aria-label="Evento próximo"></div>
         <div class="chip-content">
           <strong>Asamblea Regional - Salón de Asambleas El Trébol</strong>
-          <span>vie, 13 de nov – dom, 15 de nov de 2026</span>
+          <span>vie, 13 de nov – dom, 15 de nov de 2026</span>
+          <div class="chip-countdown"></div>
         </div>
       </div>   
-      
+
+      <div class="event-chip" data-date="2027-02-13">
+        <div class="notification-dot" aria-label="Evento próximo"></div>
+        <div class="chip-content">
+          <strong>Asamblea de circuito con el superintendente de circuito</strong>
+          <span>sáb, 13 de feb de 2027 · Todo el día</span>
+          <div class="chip-location">📍 Puente Alto</div>
+          <div class="chip-countdown"></div>
+        </div>
+      </div>
     </div>
     <div class="events-hint">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -792,24 +894,40 @@
       <a href="jul/VMC_JUL26.pdf" target="_blank" class="card">
         <h3 title="Programa de la reunión de Vida y Ministerio Cristián">🗓️ Programa reunión (VMC)</h3>
         <p>Calendario · PDF</p>
+        <div class="card-meta">
+          <span class="meta-tag">📄 PDF</span>
+          <span class="meta-tag">📅 Julio 2026</span>
+        </div>
       </a>
       <a href="jul/Programa_predicacion_JUL26_2.pdf" target="_blank" class="card">
         <h3 title="Programa de predicación del mes">🗓️ Programa de predicación</h3>
         <p>Fechas y territorios · PDF</p>
+        <div class="card-meta">
+          <span class="meta-tag">📄 PDF</span>
+          <span class="meta-tag">📅 Julio 2026</span>
+        </div>
       </a>
       <a href="jul/Privilegios_2026-07.pdf" target="_blank" class="card">
         <h3 title="Privilegios de servicio">🎤 Privilegios</h3>
         <p>Audio · Video · Micrófonos · PDF</p>
+        <div class="card-meta">
+          <span class="meta-tag">📄 PDF</span>
+          <span class="meta-tag">📅 Julio 2026</span>
+        </div>
       </a>
       <a href="jul/Programa_ADR_JUL26.pdf" target="_blank" class="card">
         <h3 title="Programa de discursos públicos">📢 Programa discursos</h3>
         <p>Calendario de discursos · PDF</p>
+        <div class="card-meta">
+          <span class="meta-tag">📄 PDF</span>
+          <span class="meta-tag">📅 Julio 2026</span>
+        </div>
       </a>
     </div>
 
     <h2>📹 Reuniones Zoom</h2>
     <div class="grid">
-      <a href="https://jworg.zoom.us/j/83830674412    " target="_blank" class="card recurrent" tabindex="0">
+      <a href="https://jworg.zoom.us/j/83830674412" target="_blank" class="card recurrent" tabindex="0">
         <h3 title="Únete a las reuniones semanales por Zoom">🔗 Únete a las reuniones</h3>
         <p>Martes 20:00 · Sábado 18:00</p>
         <div class="next-meeting" id="nextMeeting">Cargando...</div>
@@ -822,22 +940,36 @@
       <a href="general/Puntos_predicacion_publica.pdf" target="_blank" class="card">
         <h3 title="Puntos bíblicos para la predicación pública">💬 Puntos para la Predicación Pública</h3>
         <p>Documento · PDF</p>
+        <div class="card-meta">
+          <span class="meta-tag">📄 PDF</span>
+          <span class="meta-tag">📌 Permanente</span>
+        </div>
       </a>
       <a href="general/MAPA_ADR_2025_2.pdf" target="_blank" class="card">
         <h3 title="Mapa con zonas de predicación 2025">🗺️ Mapa ADR</h3>
         <p>Documento · PDF</p>
+        <div class="card-meta">
+          <span class="meta-tag">📄 PDF</span>
+          <span class="meta-tag">📌 Permanente</span>
+        </div>
       </a>
       <a href="general/Grupos_Predicacion_abril 26.pdf" target="_blank" class="card">
         <h3 title="Grupos asignados para la predicación">👥 Grupos de Predicación</h3>
         <p>Documento · PDF</p>
+        <div class="card-meta">
+          <span class="meta-tag">📄 PDF</span>
+          <span class="meta-tag">📌 Permanente</span>
+        </div>
       </a>
       <div class="card" id="transferenciaCard" tabindex="0">
         <h3 title="Datos bancarios para donaciones o ofrendas">💳 Datos de transferencia</h3>
         <p>Cuenta bancaria · Copiar fácilmente</p>
+        <div class="card-meta">
+          <span class="meta-tag">💰 Donaciones</span>
+        </div>
       </div>
     </div>
 
-    <!-- FOOTER con enlace a herramientas -->
     <footer>
       <div class="footer-content">
         <div class="footer-copyright">
@@ -851,6 +983,7 @@
   </div>
 
   <button id="backToTop" aria-label="Volver al inicio">↑</button>
+  <div class="toast" id="toast"></div>
 
   <!-- Modales -->
   <div id="transferModal" class="modal" role="dialog" aria-labelledby="transferModalTitle">
@@ -871,7 +1004,7 @@
     <div class="modal-content">
       <button class="close-btn" id="closeZoomModal" aria-label="Cerrar ventana de Zoom">&times;</button>
       <h3 id="zoomModalTitle" style="margin-top:0; color:var(--accent);">Datos Acceso Zoom</h3>
-      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412    " target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
+      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412" target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
       <p><strong>ID de reunión:</strong> 838 3067 4412</p>
       <p><strong>Código de acceso:</strong> 306868</p>
       <button class="copy-btn" id="copyZoomData">📋 Copiar todo</button>
@@ -879,9 +1012,50 @@
   </div>
 
   <script>
-    // ============================================
-    // LÓGICA DE GRUPOS DE SERVICIO (Limpieza/Hospitalidad)
-    // ============================================
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function updateCountdowns() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      document.querySelectorAll('.event-chip').forEach(chip => {
+        const dateStr = chip.dataset.date;
+        if (!dateStr) return;
+        
+        const eventDate = new Date(dateStr);
+        eventDate.setHours(0, 0, 0, 0);
+        
+        const diffTime = eventDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const countdownEl = chip.querySelector('.chip-countdown');
+        
+        if (!countdownEl) return;
+
+        if (diffDays < 0) {
+          countdownEl.textContent = 'Ya ocurrió';
+          countdownEl.style.color = 'var(--text-secondary)';
+        } else if (diffDays === 0) {
+          countdownEl.textContent = '🔥 ¡HOY!';
+          countdownEl.style.color = 'var(--notification-dot)';
+        } else if (diffDays === 1) {
+          countdownEl.textContent = '⏰ Mañana';
+        } else if (diffDays <= 7) {
+          countdownEl.textContent = `📅 En ${diffDays} días`;
+        } else if (diffDays <= 30) {
+          const weeks = Math.floor(diffDays / 7);
+          countdownEl.textContent = `📅 En ${weeks} semana${weeks > 1 ? 's' : ''}`;
+        } else {
+          const months = Math.floor(diffDays / 30);
+          countdownEl.textContent = `📅 En ${months} mes${months > 1 ? 'es' : ''}`;
+        }
+      });
+    }
+
     const baseDate = new Date('2026-02-24');
     const baseCleaningGroup = 3;
     const baseSaturday = new Date('2026-02-21');
@@ -924,13 +1098,10 @@
     function findNextMeetingDay() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
       let nextDay = new Date(today);
-      
       while (nextDay.getDay() !== 2 && nextDay.getDay() !== 6) {
         nextDay.setDate(nextDay.getDate() + 1);
       }
-      
       return nextDay;
     }
 
@@ -946,12 +1117,10 @@
       
       const cleaningGroup = calculateCleaningGroup(nextMeetingDay);
       const hospitalityGroup = isSaturday ? calculateHospitalityGroup(nextMeetingDay) : null;
-      
       const dateStr = formatDate(nextMeetingDay);
       
-      // SVG de calendario (igual que los eventos)
       const calendarIcon = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
           <line x1="16" y1="2" x2="16" y2="6"/>
           <line x1="8" y1="2" x2="8" y2="6"/>
@@ -959,43 +1128,31 @@
         </svg>
       `;
       
-      // Estructura igual que las meta-rows de eventos
       let html = `
-        <div class="service-date-row">
-          ${calendarIcon}
-          <span class="service-date">${dateStr}</span>
-        </div>
-        <div class="service-badges">
+        <div class="card reminder">
+          <h3>📋 Próximo servicio</h3>
+          <div class="service-date-row">
+            ${calendarIcon}
+            <span class="service-date">${dateStr} ${isTodayMeeting ? '<span style="color: #d97706; font-weight: 700;">(HOY)</span>' : ''}</span>
+          </div>
+          <div class="service-badges">
+            <div class="service-badge ${isTodayMeeting ? 'today' : ''}">
+              <span>🧹</span> Limpieza: Grupo ${cleaningGroup}
+            </div>
       `;
       
-      // Badge de Limpieza
-      html += `
-        <div class="service-badge ${isTodayMeeting ? 'today' : ''}">
-          <span>🧹</span> Limpieza: Grupo ${cleaningGroup}
-        </div>
-      `;
-      
-      // Badge de Hospitalidad (solo sábados)
       if (isSaturday && hospitalityGroup) {
         html += `
-          <div class="service-badge ${isTodayMeeting ? 'today' : ''}">
-            <span>🤝</span> Hospitalidad: Grupo ${hospitalityGroup}
-          </div>
+            <div class="service-badge ${isTodayMeeting ? 'today' : ''}">
+              <span>🤝</span> Hospitalidad: Grupo ${hospitalityGroup}
+            </div>
         `;
       }
       
-      if (isTodayMeeting) {
-        html += `<span style="font-size: 0.8rem; color: #b7950b; font-weight: 700;">(HOY)</span>`;
-      }
-      
-      html += `</div>`;
-      
+      html += `</div></div>`;
       document.getElementById('serviceReminder').innerHTML = html;
     }
 
-    // ============================================
-    // PRÓXIMA REUNIÓN ZOOM
-    // ============================================
     function getNextMeetingText() {
       const now = new Date();
       const day = now.getDay();
@@ -1018,14 +1175,9 @@
       const time = (nextDate.getDay() === 6) ? '18:00' : '20:00';
       return `${formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)} a las ${time}`;
     }
-    document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
 
-    // ============================================
-    // MODO OSCURO/CLARO
-    // ============================================
     const sunIcon = '☀️';
     const moonIcon = '🌙';
-
     const body = document.getElementById('body');
     const themeToggle = document.getElementById('themeToggle');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -1061,9 +1213,6 @@
       }
     });
 
-    // ============================================
-    // BOTÓN VOLVER ARRIBA
-    // ============================================
     const backToTopButton = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
       backToTopButton.classList.toggle('show', window.scrollY > 300);
@@ -1072,14 +1221,10 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // ============================================
-    // MODALES Y COPIADO
-    // ============================================
     function resetCopyButton(btn, original) {
       btn.innerHTML = original;
     }
 
-    // Transferencia
     const transferModal = document.getElementById('transferModal');
     document.getElementById('transferenciaCard')?.addEventListener('click', () => {
       transferModal.style.display = 'flex';
@@ -1104,16 +1249,17 @@
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text).then(() => {
             copyDataBtn.innerHTML = '✅ ¡Copiado!';
+            showToast('✅ Datos de transferencia copiados');
             setTimeout(() => resetCopyButton(copyDataBtn, originalHTML), 2000);
           }).catch(() => {
             copyDataBtn.innerHTML = '⚠️ Error';
+            showToast('⚠️ Error al copiar');
             setTimeout(() => resetCopyButton(copyDataBtn, originalHTML), 2500);
           });
         }
       });
     }
 
-    // Zoom
     const zoomModal = document.getElementById('zoomModal');
     document.getElementById('openZoomDetails')?.addEventListener('click', e => {
       e.preventDefault();
@@ -1135,20 +1281,21 @@
     if (copyZoomBtn) {
       const originalHTML = copyZoomBtn.innerHTML;
       copyZoomBtn.addEventListener('click', () => {
-        const text = `Enlace: https://jworg.zoom.us/j/83830674412    \nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
+        const text = `Enlace: https://jworg.zoom.us/j/83830674412\nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text).then(() => {
             copyZoomBtn.innerHTML = '✅ ¡Copiado!';
+            showToast('✅ Datos de Zoom copiados');
             setTimeout(() => resetCopyButton(copyZoomBtn, originalHTML), 2000);
           }).catch(() => {
             copyZoomBtn.innerHTML = '⚠️ Error';
+            showToast('⚠️ Error al copiar');
             setTimeout(() => resetCopyButton(copyZoomBtn, originalHTML), 2500);
           });
         }
       });
     }
 
-    // Cerrar modales con Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         transferModal.style.display = 'none';
@@ -1157,11 +1304,17 @@
       }
     });
 
-    // ============================================
-    // INICIALIZAR
-    // ============================================
-    updateServiceReminder();
-    setInterval(updateServiceReminder, 60000);
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
+      updateServiceReminder();
+      updateCountdowns();
+      
+      setInterval(() => {
+        document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
+        updateServiceReminder();
+        updateCountdowns();
+      }, 60000);
+    });
   </script>
 </body>
 </html>
