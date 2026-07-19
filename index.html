@@ -159,6 +159,16 @@
       min-width: 0;
     }
 
+    /* NUEVO: Estilos para el saludo contextual */
+    .header-greeting {
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 4px;
+      opacity: 0.9;
+      transition: color var(--transition);
+    }
+
     .header-text h1 {
       margin: 0;
       font-size: clamp(1.3rem, 4vw, 2rem);
@@ -840,6 +850,8 @@
     <div class="header">
       <img src="general/logo.jpeg" alt="Logo del Tablero Digital Altos del Raco">
       <div class="header-text">
+        <!-- NUEVO: Elemento para el saludo contextual -->
+        <div class="header-greeting" id="headerGreeting"></div>
         <h1>Tablero digital Altos del Raco</h1>
         <p>Bienvenidos al tablero digital de Altos del Raco</p>
         <div class="tags">
@@ -1012,6 +1024,25 @@
   </div>
 
   <script>
+    // ============================================
+    // NUEVO: SALUDO CONTEXTUAL
+    // ============================================
+    function actualizarSaludo() {
+      const hora = new Date().getHours();
+      const saludoEl = document.getElementById('headerGreeting');
+      let saludo;
+      
+      if (hora >= 6 && hora < 12) {
+        saludo = 'Buenos días, hermanos 👋';
+      } else if (hora >= 12 && hora < 19) {
+        saludo = 'Buenas tardes, hermanos 🌤️';
+      } else {
+        saludo = 'Buenas noches, hermanos 🌙';
+      }
+      
+      saludoEl.textContent = saludo;
+    }
+
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -1305,11 +1336,15 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
+      // NUEVO: Llamar a actualizarSaludo al cargar
+      actualizarSaludo();
       document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
       updateServiceReminder();
       updateCountdowns();
       
       setInterval(() => {
+        // NUEVO: Actualizar saludo cada minuto
+        actualizarSaludo();
         document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
         updateServiceReminder();
         updateCountdowns();
