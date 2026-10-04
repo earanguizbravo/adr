@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tablero digital Altos del Raco</title>
+  <style>
+    /* (TU CSS ORIGINAL SE MANTIENE EXACTAMENTE IGUAL, NO SE MODIFICÓ NADA) */
+    :root {
+      --bg-primary: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-link: #0284c7;
+      --header-bg: rgba(255, 255, 255, 0.95);
+      --border-color: rgba(14, 165, 233, 0.15);
+      --shadow: 0 10px 40px rgba(14, 165, 233, 0.08);
+      --shadow-hover: 0 20px 60px rgba(14, 165, 233, 0.15);
+      --accent: #0369a1;
+      --accent-hover: #0284c7;
+      --tag-bg: #e0f2fe;
+      --tag-text: #0369a1;
+      --recurrent-bg: #f0f9ff;
+      --footer-text: #ffffff;
+      --modal-bg: rgba(255, 255, 255, 0.98);
+      --event-chip-bg: rgba(255, 255, 255, 0.9);
+      --event-chip-text: #0f172a;
+      --event-chip-date: #475569;
+      --notification-dot: #f43f5e;
+      --transition: 0.3s ease;
+      --border-radius: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root.dark-auto {
+        --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        --card-bg: rgba(30, 41, 59, 0.95);
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --text-link: #38bdf8;
+        --header-bg: rgba(30, 41, 59, 0.95);
+        --border-color: rgba(56, 189, 248, 0.15);
+        --shadow: 0 10px 40px rgba(0,0,0,0.3);
+        --shadow-hover: 0 20px 60px rgba(0,0,0,0.5);
+        --accent: #38bdf8;
+        --accent-hover: #7dd3fc;
+        --tag-bg: rgba(56, 189, 248, 0.15);
+        --tag-text: #7dd3fc;
+        --recurrent-bg: #1e293b;
+        --footer-text: #cbd5e1;
+        --modal-bg: rgba(30, 41, 59, 0.98);
+        --event-chip-bg: rgba(255, 255, 255, 0.05);
+        --event-chip-text: #f1f5f9;
+        --event-chip-date: #cbd5e1;
+        --notification-dot: #fb7185;
+      }
+    }
+
+    .dark-mode {
+      --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      --card-bg: rgba(30, 41, 59, 0.95);
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-link: #38bdf8;
+      --header-bg: rgba(30, 41, 59, 0.95);
+      --border-color: rgba(56, 189, 248, 0.15);
+      --shadow: 0 10px 40px rgba(0,0,0,0.3);
+      --shadow-hover: 0 20px 60px rgba(0,0,0,0.5);
+      --accent: #38bdf8;
+      --accent-hover: #7dd3fc;
+      --tag-bg: rgba(56, 189, 248, 0.15);
+      --tag-text: #7dd3fc;
+      --recurrent-bg: #1e293b;
+      --footer-text: #cbd5e1;
+      --modal-bg: rgba(30, 41, 59, 0.98);
+      --event-chip-bg: rgba(255, 255, 255, 0.05);
+      --event-chip-text: #f1f5f9;
+      --event-chip-date: #cbd5e1;
+      --notification-dot: #fb7185;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      margin: 0; padding: 20px; color: var(--text-primary);
+      transition: background var(--transition); min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: auto; }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+    @keyframes dotPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.9); } }
+    @keyframes slideLeftRight { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-5px); } }
+
+    .header {
+      background: var(--header-bg); border-radius: var(--border-radius);
+      padding: clamp(15px, 3vw, 25px); box-shadow: var(--shadow);
+      margin-bottom: clamp(20px, 4vw, 40px); display: flex; align-items: center;
+      gap: clamp(10px, 2vw, 20px); position: relative;
+      transition: background var(--transition), box-shadow var(--transition);
+      animation: fadeInDown 0.6s ease; backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+    .header img {
+      height: clamp(40px, 8vw, 60px); width: auto; border-radius: 15px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08)); transition: transform 0.3s ease;
+    }
+    .header img:hover { transform: scale(1.05); }
+    .header-text { flex: 1; min-width: 0; }
+    .header-greeting {
+      font-size: clamp(0.85rem, 2.5vw, 1rem); color: var(--accent);
+      font-weight: 600; margin-bottom: 4px; opacity: 0.9; transition: color var(--transition);
+    }
+    .header-text h1 {
+      margin: 0; font-size: clamp(1.3rem, 4vw, 2rem); color: var(--text-primary);
+      transition: color var(--transition); font-weight: 700; line-height: 1.3;
+    }
+    .header-text p {
+      margin: 5px 0 10px; color: var(--text-secondary);
+      transition: color var(--transition); font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    }
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      background: var(--tag-bg); color: var(--tag-text); padding: 5px 14px;
+      border-radius: 20px; font-size: clamp(0.75rem, 2vw, 0.9rem); font-weight: 600;
+      transition: all var(--transition); border: 1px solid var(--border-color);
+    }
+    .tag:hover { transform: scale(1.05); box-shadow: 0 2px 8px rgba(14, 165, 233, 0.15); }
+
+    .theme-toggle {
+      position: fixed; top: 20px; right: 20px; background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px); border: 1px solid rgba(14, 165, 233, 0.2);
+      width: 50px; height: 50px; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; cursor: pointer;
+      color: var(--accent); transition: all 0.3s ease; z-index: 1000;
+      font-size: 1.3rem; padding: 0; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.15);
+    }
+    .dark-mode .theme-toggle, .dark-auto .theme-toggle {
+      background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(56, 189, 248, 0.2);
+      color: #7dd3fc; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .theme-toggle:hover { background: rgba(255,255,255,1); transform: rotate(180deg) scale(1.1); }
+    .dark-mode .theme-toggle:hover, .dark-auto .theme-toggle:hover { background: rgba(30, 41, 59, 1); }
+
+    h2 {
+      color: var(--accent) !important; text-shadow: none;
+      margin: clamp(25px, 5vw, 40px) 0 clamp(15px, 3vw, 25px);
+      font-size: clamp(1.4rem, 4vw, 1.8rem); font-weight: 700;
+      animation: fadeInUp 0.6s ease; display: flex; align-items: center;
+      gap: 10px; padding: 0 5px;
+    }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 40vw, 280px), 1fr));
+      gap: clamp(15px, 3vw, 25px); margin-bottom: clamp(20px, 4vw, 40px);
+    }
+    .card {
+      background: var(--card-bg) !important; padding: clamp(15px, 3vw, 25px);
+      border-radius: var(--border-radius); box-shadow: var(--shadow);
+      transition: all 0.3s ease; text-decoration: none; color: var(--text-primary) !important;
+      display: block; position: relative; animation: fadeInUp 0.6s ease;
+      border: 1px solid rgba(255,255,255,0.6); backdrop-filter: blur(8px); overflow: hidden;
+    }
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      transform: scaleX(0); transition: transform 0.3s ease;
+    }
+    .card:hover::before { transform: scaleX(1); }
+    .card:hover {
+      transform: translateY(-6px) scale(1.02); box-shadow: var(--shadow-hover);
+      border-color: rgba(14, 165, 233, 0.3);
+    }
+    .card:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .card.recurrent { background: var(--recurrent-bg) !important; border-left: 4px solid var(--accent); }
+    .card.reminder { background: var(--recurrent-bg) !important; border-left: 4px solid #f59e0b; }
+    .card.reminder h3 { color: #d97706 !important; font-weight: 700; }
+    .card h3 {
+      margin: 0 0 clamp(8px, 2vw, 12px); font-size: clamp(1rem, 3vw, 1.2rem);
+      color: var(--accent) !important; display: flex; align-items: center;
+      gap: 6px; transition: color var(--transition); font-weight: 700;
+    }
+    .card p, .zoom-details-trigger {
+      margin: 0; font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+      color: var(--text-link) !important; transition: color var(--transition);
+      line-height: 1.5; font-weight: 500;
+    }
+    .zoom-details-trigger {
+      font-size: clamp(0.75rem, 2vw, 0.85rem); text-decoration: underline;
+      cursor: pointer; margin-top: 8px; display: inline-block; font-weight: 600;
+    }
+    .zoom-details-trigger:hover { color: var(--accent-hover) !important; }
+    .next-meeting {
+      margin-top: 10px; font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      color: var(--text-link) !important; font-weight: 700; padding: 8px 12px;
+      background: rgba(14, 165, 233, 0.1); border-radius: 10px; display: inline-block;
+    }
+    .card-meta { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .meta-tag {
+      font-size: 0.75rem; background: var(--tag-bg); color: var(--tag-text);
+      padding: 3px 8px; border-radius: 6px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .service-date-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+      color: var(--text-secondary); font-weight: 600; font-size: 0.95rem;
+    }
+    .service-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+    .service-badge {
+      background: var(--tag-bg); color: var(--tag-text); padding: 8px 14px;
+      border-radius: 12px; font-size: 0.9rem; font-weight: 600;
+      display: flex; align-items: center; gap: 6px; border: 1px solid var(--border-color);
+    }
+    .service-badge.today {
+      background: #fef3c7; color: #92400e; border-color: #fcd34d;
+      animation: pulse 2s infinite;
+    }
+    .dark-mode .service-badge.today, .dark-auto .service-badge.today {
+      background: rgba(251, 191, 36, 0.15); color: #fbbf24; border-color: rgba(251, 191, 36, 0.3);
+    }
+    .events-compact {
+      display: flex; gap: 12px; overflow-x: auto; padding: 10px 5px 15px;
+      margin-bottom: 30px; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+      scrollbar-color: rgba(14, 165, 233, 0.3) rgba(14, 165, 233, 0.1);
+    }
+    .events-compact::-webkit-scrollbar { height: 6px; }
+    .events-compact::-webkit-scrollbar-track { background: rgba(14, 165, 233, 0.1); border-radius: 10px; }
+    .events-compact::-webkit-scrollbar-thumb { background: rgba(14, 165, 233, 0.3); border-radius: 10px; }
+    .events-compact::-webkit-scrollbar-thumb:hover { background: rgba(14, 165, 233, 0.5); }
+    .event-chip {
+      flex: 0 0 auto; background: var(--event-chip-bg); padding: 12px 16px;
+      border-radius: 15px; display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.08); scroll-snap-align: start;
+      min-width: 220px; max-width: 320px; backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.6); transition: all 0.3s ease;
+      cursor: default; position: relative;
+    }
+    .event-chip:hover {
+      transform: translateY(-3px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.15);
+      border-color: rgba(14, 165, 233, 0.3);
+    }
+    .notification-dot {
+      width: 10px; height: 10px; background: var(--notification-dot);
+      border-radius: 50%; flex-shrink: 0; animation: dotPulse 2s ease-in-out infinite;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+    }
+    .chip-content { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+    .chip-content strong { font-size: 0.9rem; color: var(--event-chip-text); font-weight: 600; line-height: 1.3; }
+    .chip-content span { font-size: 0.8rem; color: var(--event-chip-date); white-space: nowrap; }
+    .chip-location { font-size: 0.75rem; color: var(--text-secondary); white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+    .chip-countdown { font-size: 0.75rem; color: var(--accent); font-weight: 700; margin-top: 2px; }
+    .events-hint {
+      text-align: center; color: var(--text-secondary); font-size: 0.85rem;
+      margin-top: -10px; margin-bottom: 20px; animation: fadeInUp 0.6s ease 0.3s both;
+    }
+    .events-hint svg { animation: slideLeftRight 2s ease-in-out infinite; vertical-align: middle; margin-right: 5px; }
+    footer {
+      text-align: center; margin-top: clamp(40px, 6vw, 60px); padding: 25px 20px;
+      font-size: clamp(0.75rem, 2vw, 0.9rem); color: var(--footer-text);
+      transition: color var(--transition); animation: fadeInUp 0.6s ease;
+      background: rgba(14, 165, 233, 0.15); backdrop-filter: blur(10px);
+      border-radius: var(--border-radius); border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
+    }
+    .dark-mode footer, .dark-auto footer { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.15); }
+    .footer-content { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+    .footer-copyright { opacity: 0.9; }
+    .footer-tools-link {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+      background: var(--accent); color: white; text-decoration: none;
+      border-radius: 15px; font-weight: 600; font-size: 0.85rem;
+      transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(3, 105, 161, 0.25);
+    }
+    .footer-tools-link:hover {
+      background: var(--accent-hover); transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(3, 105, 161, 0.35);
+    }
+    .modal {
+      display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+      width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.6);
+      justify-content: center; align-items: center; transition: background-color var(--transition);
+      backdrop-filter: blur(6px);
+    }
+    .modal-content {
+      background: var(--modal-bg); padding: clamp(20px, 4vw, 30px);
+      border-radius: var(--border-radius); max-width: 450px; width: 90%;
+      text-align: left; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      color: var(--text-primary); transition: all var(--transition);
+      box-sizing: border-box; animation: fadeInUp 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .modal-content a { color: var(--accent); transition: color var(--transition); word-break: break-all; font-weight: 600; }
+    .modal-content a:hover { color: var(--accent-hover); }
+    .close-btn {
+      background: none; border: none; font-size: 1.8rem; color: var(--text-secondary);
+      float: right; cursor: pointer; padding: 4px 8px; border-radius: 8px;
+      transition: all var(--transition); line-height: 1;
+    }
+    .close-btn:hover, .close-btn:focus { background: var(--tag-bg); color: var(--accent); transform: scale(1.1); }
+    .modal-content .copy-btn {
+      margin: 20px auto 0; background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: #fff; border: none; padding: 12px 24px; border-radius: 12px;
+      cursor: pointer; font-size: 0.95rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: auto; min-width: 180px; transition: all var(--transition);
+      box-shadow: 0 4px 15px rgba(3, 105, 161, 0.3);
+    }
+    .modal-content .copy-btn:hover, .modal-content .copy-btn:focus {
+      transform: translateY(-2px); box-shadow: 0 8px 25px rgba(3, 105, 161, 0.4); outline: none;
+    }
+    .modal-content .copy-btn:active { transform: translateY(0); }
+    .toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--accent); color: white; padding: 12px 24px; border-radius: 25px;
+      box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3); z-index: 10001;
+      font-weight: 500; font-size: 0.9rem; opacity: 0; pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    .dark-mode .toast, .dark-auto .toast { background: #38bdf8; color: #0f172a; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #backToTop {
+      position: fixed; bottom: 20px; right: 20px; width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: white; border: none; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-size: 1.3rem;
+      cursor: pointer; box-shadow: 0 4px 15px rgba(3, 105, 161, 0.3);
+      opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 999;
+    }
+    #backToTop.show { opacity: 1; visibility: visible; }
+    #backToTop:hover { transform: scale(1.1) translateY(-3px); box-shadow: 0 8px 25px rgba(3, 105, 161, 0.4); }
+    @media (min-width: 768px) { #backToTop { display: none !important; } }
+    @media (max-width: 768px) {
+      .header { flex-direction: column; text-align: center; padding: 20px 15px; }
+      .header-text { width: 100%; }
+      .tags { justify-content: center; }
+      .grid { grid-template-columns: 1fr; }
+      .event-chip { min-width: 200px; padding: 10px 12px; }
+      .chip-content strong { font-size: 0.85rem; }
+      .chip-content span { font-size: 0.75rem; }
+    }
+    @media (max-width: 480px) {
+      body { padding: 15px 10px; }
+      .header { padding: 15px 12px; }
+      .header img { height: 45px; }
+      .card { padding: 18px 15px; }
+      .modal-content { padding: 20px 15px; width: 95%; }
+      .event-chip { min-width: 180px; padding: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .notification-dot { animation: none !important; }
+    }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body id="body">
+  <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo claro/oscuro" title="Cambiar tema">🌓</button>
+
+  <div class="container">
+    <div class="header">
+      <img src="general/logo.jpeg" alt="Logo del Tablero Digital Altos del Raco">
+      <div class="header-text">
+        <div class="header-greeting" id="headerGreeting"></div>
+        <h1>Tablero digital Altos del Raco</h1>
+        <p>Bienvenidos al tablero digital de Altos del Raco</p>
+        <div class="tags">
+          <span class="tag">📅 Actualizado dinámicamente</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESUMEN DE HOY -->
+    <div class="grid" id="serviceReminder" style="display:none;"></div>
+
+    <!-- PRÓXIMOS EVENTOS -->
+    <h2>📅 Próximos Eventos</h2>
+    <div class="events-compact">
+      <div class="event-chip" data-date="2026-11-13">
+        <div class="notification-dot" aria-label="Evento próximo"></div>
+        <div class="chip-content">
+          <strong>Asamblea Regional - Salón de Asambleas El Trébol</strong>
+          <span>vie, 13 de nov – dom, 15 de nov de 2026</span>
+          <div class="chip-countdown"></div>
+        </div>
+      </div>
+      <div class="event-chip" data-date="2026-12-29">
+        <div class="notification-dot" aria-label="Evento próximo"></div>
+        <div class="chip-content">
+          <strong>Visita a la congregación del superintendente de circuito</strong>
+          <span>mar, 29 de dic de 2026 – dom, 3 de ene de 2027</span>
+          <div class="chip-location">📍 Altos del Raco - Puente Alto</div>
+          <div class="chip-countdown"></div>
+        </div>
+      </div>
+      <div class="event-chip" data-date="2027-02-13">
+        <div class="notification-dot" aria-label="Evento próximo"></div>
+        <div class="chip-content">
+          <strong>Asamblea de circuito con el superintendente de circuito</strong>
+          <span>sáb, 13 de feb de 2027 · Todo el día</span>
+          <div class="chip-location">📍 Puente Alto</div>
+          <div class="chip-countdown"></div>
+        </div>
+      </div>
+    </div>
+    <div class="events-hint">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      Desliza para ver más eventos
+    </div>
+
+    <!-- SECCIÓN DINÁMICA: ARCHIVOS DEL MES -->
+    <h2>📁 Archivos del Mes</h2>
+    <div class="grid" id="gridArchivosMes">
+      <!-- Las tarjetas se generarán aquí automáticamente desde el JSON -->
+    </div>
+
+    <!-- SECCIÓN DINÁMICA: ARCHIVOS GENERALES -->
+    <h2>📚 Archivos Generales</h2>
+    <div class="grid" id="gridArchivosGenerales">
+      <!-- Las tarjetas se generarán aquí automáticamente desde el JSON -->
+      
+      <!-- Tarjeta estática de transferencia (se mantiene fija al final) -->
+      <div class="card" id="transferenciaCard" tabindex="0">
+        <h3 title="Datos bancarios para donaciones o ofrendas">💳 Datos de transferencia</h3>
+        <p>Cuenta bancaria · Copiar fácilmente</p>
+        <div class="card-meta">
+          <span class="meta-tag">💰 Donaciones</span>
+        </div>
+      </div>
+    </div>
+
+    <h2>📹 Reuniones Zoom</h2>
+    <div class="grid">
+      <a href="https://jworg.zoom.us/j/83830674412" target="_blank" class="card recurrent" tabindex="0">
+        <h3 title="Únete a las reuniones semanales por Zoom">🔗 Únete a las reuniones</h3>
+        <p>Martes 20:00 · Sábado 18:00</p>
+        <div class="next-meeting" id="nextMeeting">Cargando...</div>
+        <span class="zoom-details-trigger" id="openZoomDetails">Ver ID y código de acceso</span>
+      </a>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-copyright">
+          © Altos del Raco – Tablero digital actualizado.
+        </div>
+        <a href="herramientas.html" class="footer-tools-link">
+          <span>🔧</span> Herramientas Congregación
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <button id="backToTop" aria-label="Volver al inicio">↑</button>
+  <div class="toast" id="toast"></div>
+
+  <!-- Modales -->
+  <div id="transferModal" class="modal" role="dialog" aria-labelledby="transferModalTitle">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal" aria-label="Cerrar ventana de transferencia">&times;</button>
+      <h3 id="transferModalTitle" style="margin-top:0; color:var(--accent);">Datos de Transferencia</h3>
+      <p><strong>Banco:</strong> Banco de Chile</p>
+      <p><strong>Tipo de cuenta:</strong> Cuenta Vista</p>
+      <p><strong>Número de cuenta:</strong> 75225240</p>
+      <p><strong>RUT:</strong> 9.372.286-8</p>
+      <p><strong>Nombre:</strong> Jorge Barrera</p>
+      <p><strong>Correo:</strong> cuentas.altosdelraco@gmail.com</p>
+      <button class="copy-btn" id="copyData">📋 Copiar datos</button>
+    </div>
+  </div>
+
+  <div id="zoomModal" class="modal" role="dialog" aria-labelledby="zoomModalTitle">
+    <div class="modal-content">
+      <button class="close-btn" id="closeZoomModal" aria-label="Cerrar ventana de Zoom">&times;</button>
+      <h3 id="zoomModalTitle" style="margin-top:0; color:var(--accent);">Datos Acceso Zoom</h3>
+      <p><strong>Enlace:</strong> <a href="https://jworg.zoom.us/j/83830674412" target="_blank" rel="noopener">jworg.zoom.us/j/83830674412</a></p>
+      <p><strong>ID de reunión:</strong> 838 3067 4412</p>
+      <p><strong>Código de acceso:</strong> 306868</p>
+      <button class="copy-btn" id="copyZoomData">📋 Copiar todo</button>
+    </div>
+  </div>
+
+  <script>
+    // ============================================
+    // 1. CONFIGURACIÓN DINÁMICA DE ARCHIVOS
+    // ============================================
+    // ⚠️ IMPORTANTE: Reemplaza esta URL con el enlace "RAW" de tu archivo JSON.
+    // No uses el enlace de "Compartir" de OneDrive (no funciona por CORS).
+    // Recomendación: Usa GitHub Gist (gratis) -> Crea el archivo -> Clic en "Raw" -> Copia esa URL.
+    const CONFIG_URL = 'https://gist.githubusercontent.com/TU_USUARIO/TU_ID_GIST/raw/config.json';
+
+    async function cargarConfiguracion() {
+      try {
+        // Agregamos un timestamp para evitar que el navegador guarde el archivo en caché
+        // y siempre obtenga la versión más reciente al recargar.
+        const response = await fetch(CONFIG_URL + '?t=' + new Date().getTime());
+        if (!response.ok) throw new Error('No se pudo cargar la configuración');
+        const data = await response.json();
+        
+        renderizarSeccion('gridArchivosMes', data.archivosMes);
+        renderizarSeccion('gridArchivosGenerales', data.archivosGenerales);
+      } catch (error) {
+        console.error('Error cargando configuración:', error);
+        const errorMsg = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1; padding: 20px;">⚠️ No se pudieron cargar los archivos. Verifica la conexión o la URL del JSON.</p>';
+        document.getElementById('gridArchivosMes').innerHTML = errorMsg;
+      }
+    }
+
+    function renderizarSeccion(containerId, items) {
+      const container = document.getElementById(containerId);
+      if (!container || !items) return;
+      
+      const dynamicHTML = items.map(item => `
+        <a href="${item.url}" target="_blank" class="card">
+          <h3 title="${item.titulo}">${item.titulo}</h3>
+          <p>${item.descripcion}</p>
+          <div class="card-meta">
+            ${item.tags.map(tag => `<span class="meta-tag">${tag}</span>`).join('')}
+          </div>
+        </a>
+      `).join('');
+
+      // Insertar las tarjetas dinámicas antes de la tarjeta estática de transferencia (si existe)
+      const transferenciaCard = container.querySelector('#transferenciaCard');
+      if (transferenciaCard) {
+        transferenciaCard.insertAdjacentHTML('beforebegin', dynamicHTML);
+      } else {
+        container.innerHTML = dynamicHTML;
+      }
+    }
+
+    // ============================================
+    // 2. LÓGICA ORIGINAL DEL TABLERO
+    // ============================================
+    function actualizarSaludo() {
+      const hora = new Date().getHours();
+      const saludoEl = document.getElementById('headerGreeting');
+      let saludo;
+      if (hora >= 6 && hora < 12) saludo = 'Buenos días, hermanos 👋';
+      else if (hora >= 12 && hora < 19) saludo = 'Buenas tardes, hermanos 🌤️';
+      else saludo = 'Buenas noches, hermanos 🌙';
+      saludoEl.textContent = saludo;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function updateCountdowns() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      document.querySelectorAll('.event-chip').forEach(chip => {
+        const dateStr = chip.dataset.date;
+        if (!dateStr) return;
+        const eventDate = new Date(dateStr);
+        eventDate.setHours(0, 0, 0, 0);
+        const diffTime = eventDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const countdownEl = chip.querySelector('.chip-countdown');
+        if (!countdownEl) return;
+
+        if (diffDays < 0) {
+          countdownEl.textContent = 'Ya ocurrió';
+          countdownEl.style.color = 'var(--text-secondary)';
+        } else if (diffDays === 0) {
+          countdownEl.textContent = '🔥 ¡HOY!';
+          countdownEl.style.color = 'var(--notification-dot)';
+        } else if (diffDays === 1) {
+          countdownEl.textContent = '⏰ Mañana';
+        } else if (diffDays <= 7) {
+          countdownEl.textContent = `📅 En ${diffDays} días`;
+        } else if (diffDays <= 30) {
+          const weeks = Math.floor(diffDays / 7);
+          countdownEl.textContent = `📅 En ${weeks} semana${weeks > 1 ? 's' : ''}`;
+        } else {
+          const months = Math.floor(diffDays / 30);
+          countdownEl.textContent = `📅 En ${months} mes${months > 1 ? 'es' : ''}`;
+        }
+      });
+    }
+
+    const baseDate = new Date('2026-02-24');
+    const baseCleaningGroup = 3;
+    const baseSaturday = new Date('2026-02-21');
+    const baseHospitalityGroup = 2;
+
+    function getDayName(date) { return ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'][date.getDay()]; }
+    function getMonthName(date) { return ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'][date.getMonth()]; }
+    function formatDate(date) { return `${getDayName(date)}, ${date.getDate()} de ${getMonthName(date)} de ${date.getFullYear()}`; }
+
+    function calculateGroup(baseDate, baseGroup, targetDate) {
+      const diffTime = targetDate - baseDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const meetingsPassed = Math.floor(diffDays / 3.5);
+      return ((baseGroup - 1 + meetingsPassed) % 5) + 1;
+    }
+
+    function calculateCleaningGroup(meetingDate) { return calculateGroup(baseDate, baseCleaningGroup, meetingDate); }
+    function calculateHospitalityGroup(saturdayDate) { return calculateGroup(baseSaturday, baseHospitalityGroup, saturdayDate); }
+
+    function findNextMeetingDay() {
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      let nextDay = new Date(today);
+      while (nextDay.getDay() !== 2 && nextDay.getDay() !== 6) nextDay.setDate(nextDay.getDate() + 1);
+      return nextDay;
+    }
+
+    function isToday(date) { return date.toDateString() === new Date().toDateString(); }
+
+    function updateServiceReminder() {
+      const nextMeetingDay = findNextMeetingDay();
+      const isTodayMeeting = isToday(nextMeetingDay);
+      const isSaturday = (nextMeetingDay.getDay() === 6);
+      const cleaningGroup = calculateCleaningGroup(nextMeetingDay);
+      const hospitalityGroup = isSaturday ? calculateHospitalityGroup(nextMeetingDay) : null;
+      const dateStr = formatDate(nextMeetingDay);
+      
+      let html = `<div class="card reminder"><h3>📋 Próximo servicio</h3><div class="service-date-row"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="service-date">${dateStr} ${isTodayMeeting ? '<span style="color: #d97706; font-weight: 700;">(HOY)</span>' : ''}</span></div><div class="service-badges"><div class="service-badge ${isTodayMeeting ? 'today' : ''}"><span>🧹</span> Limpieza: Grupo ${cleaningGroup}</div>`;
+      if (isSaturday && hospitalityGroup) {
+        html += `<div class="service-badge ${isTodayMeeting ? 'today' : ''}"><span>🤝</span> Hospitalidad: Grupo ${hospitalityGroup}</div>`;
+      }
+      html += `</div></div>`;
+      document.getElementById('serviceReminder').innerHTML = html;
+      document.getElementById('serviceReminder').style.display = 'grid';
+    }
+
+    function getNextMeetingText() {
+      const now = new Date();
+      const day = now.getDay();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      if (day === 6 && currentMinutes < 18 * 60) return "Hoy a las 18:00";
+      if (day === 2 && currentMinutes < 20 * 60) return "Hoy a las 20:00";
+      let daysToAdd = (day < 2) ? 2 - day : (day < 6) ? 6 - day : 2 + (7 - day);
+      const nextDate = new Date(now);
+      nextDate.setDate(now.getDate() + daysToAdd);
+      const options = { weekday: 'long', day: 'numeric', month: 'short' };
+      const formattedDate = nextDate.toLocaleDateString('es-ES', options);
+      return `${formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)} a las ${(nextDate.getDay() === 6) ? '18:00' : '20:00'}`;
+    }
+
+    const body = document.getElementById('body');
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme');
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        body.classList.remove('dark-auto'); body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️'; localStorage.setItem('theme', 'dark');
+      } else {
+        body.classList.remove('dark-mode', 'dark-auto');
+        themeToggle.textContent = '🌙'; localStorage.setItem('theme', 'light');
+      }
+    }
+
+    if (savedTheme === 'dark') setTheme('dark');
+    else if (savedTheme === 'light') setTheme('light');
+    else if (prefersDark) { body.classList.add('dark-auto'); themeToggle.textContent = '☀️'; }
+    else { themeToggle.textContent = '🌙'; }
+
+    themeToggle.addEventListener('click', () => {
+      setTheme(body.classList.contains('dark-mode') || body.classList.contains('dark-auto') ? 'light' : 'dark');
+    });
+
+    const backToTopButton = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => backToTopButton.classList.toggle('show', window.scrollY > 300));
+    backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    function resetCopyButton(btn, original) { btn.innerHTML = original; }
+
+    const transferModal = document.getElementById('transferModal');
+    document.getElementById('transferenciaCard')?.addEventListener('click', () => {
+      transferModal.style.display = 'flex'; document.body.style.overflow = 'hidden';
+    });
+    document.getElementById('closeModal')?.addEventListener('click', () => {
+      transferModal.style.display = 'none'; document.body.style.overflow = '';
+    });
+    window.addEventListener('click', e => {
+      if (e.target === transferModal) { transferModal.style.display = 'none'; document.body.style.overflow = ''; }
+    });
+
+    const copyDataBtn = document.getElementById('copyData');
+    if (copyDataBtn) {
+      const originalHTML = copyDataBtn.innerHTML;
+      copyDataBtn.addEventListener('click', () => {
+        const text = `Banco: Banco de Chile\nTipo de cuenta: Cuenta Vista\nNúmero de cuenta: 75225240\nRUT: 9.372.286-8\nNombre: Jorge Barrera\nCorreo: cuentas.altosdelraco@gmail.com`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => {
+            copyDataBtn.innerHTML = '✅ ¡Copiado!'; showToast('✅ Datos de transferencia copiados');
+            setTimeout(() => resetCopyButton(copyDataBtn, originalHTML), 2000);
+          }).catch(() => {
+            copyDataBtn.innerHTML = '⚠️ Error'; showToast('⚠️ Error al copiar');
+            setTimeout(() => resetCopyButton(copyDataBtn, originalHTML), 2500);
+          });
+        }
+      });
+    }
+
+    const zoomModal = document.getElementById('zoomModal');
+    document.getElementById('openZoomDetails')?.addEventListener('click', e => {
+      e.preventDefault(); zoomModal.style.display = 'flex'; document.body.style.overflow = 'hidden';
+    });
+    document.getElementById('closeZoomModal')?.addEventListener('click', () => {
+      zoomModal.style.display = 'none'; document.body.style.overflow = '';
+    });
+    window.addEventListener('click', e => {
+      if (e.target === zoomModal) { zoomModal.style.display = 'none'; document.body.style.overflow = ''; }
+    });
+
+    const copyZoomBtn = document.getElementById('copyZoomData');
+    if (copyZoomBtn) {
+      const originalHTML = copyZoomBtn.innerHTML;
+      copyZoomBtn.addEventListener('click', () => {
+        const text = `Enlace: https://jworg.zoom.us/j/83830674412\nID de reunión: 838 3067 4412\nCódigo de acceso: 306868`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => {
+            copyZoomBtn.innerHTML = '✅ ¡Copiado!'; showToast('✅ Datos de Zoom copiados');
+            setTimeout(() => resetCopyButton(copyZoomBtn, originalHTML), 2000);
+          }).catch(() => {
+            copyZoomBtn.innerHTML = '⚠️ Error'; showToast('⚠️ Error al copiar');
+            setTimeout(() => resetCopyButton(copyZoomBtn, originalHTML), 2500);
+          });
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        transferModal.style.display = 'none'; zoomModal.style.display = 'none'; document.body.style.overflow = '';
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      actualizarSaludo();
+      document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
+      updateServiceReminder();
+      updateCountdowns();
+      
+      // Cargar los archivos desde el JSON externo
+      cargarConfiguracion();
+      
+      setInterval(() => {
+        actualizarSaludo();
+        document.getElementById('nextMeeting').textContent = `📅 Próxima reunión: ${getNextMeetingText()}`;
+        updateServiceReminder();
+        updateCountdowns();
+      }, 60000);
+    });
+  </script>
+</body>
+</html>
